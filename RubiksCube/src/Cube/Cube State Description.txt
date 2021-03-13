@@ -1,0 +1,70 @@
+The Cube is represented using the following way (edge and corner pieces separately):
+
+* Corners:
+I number the corners 0 to 7
+    *0 - UBL corner
+    *1 - URB corner
+    *2 - ULF corner
+    *3 - UFR corner
+    *4 - DLB corner
+    *5 - DBR corner
+    *6 - DFL corner
+    *7 - DRF corner
+Each cubie (corner piece) can be in 8 slots and have 3 different orientations, giving a total of
+24 different states. I use a byte var to hold each state and the eight pieces are stored in an
+array of eight bytes c[i]. The low 3 bits of c[i] indicate which slot the corner i is taking and
+the next two bits give the corner orientation: 0 - no twist, 1 - clockwise twist and 2 - counter-
+-clockwise twist. The following table resumes the possible states:
+
+Orientation 0   Orientation 1   Orientation 2
+UBL - 00000000  LUB - 00001000  BLU - 00010000      Corner 0
+URB - 00000001  BUR - 00001001  RBU - 00010001      Corner 1
+ULF - 00000010  FLU - 00001010  LFU - 00010010      Corner 2
+UFR - 00000011  RUF - 00001011  FRU - 00010011      Corner 3
+DLB - 00000100  BDL - 00001100  LBD - 00010100      Corner 4
+DBR - 00000101  RDB - 00001101  BRD - 00010101      Corner 5
+DFL - 00000110  LDF - 00001110  FLD - 00010110      Corner 6
+DRF - 00000111  FDR - 00001111  RFD - 00010111      Corner 7
+
+If  the  U  or  D  facelet  is  in  the  U  or  D  face,  we  declare  the  cubie  to  be
+properly  oriented (an orientation of 0).  If twisting the cubie (when looking towards the center
+of the cube from that cubie) counterclockwise brings it into the oriented state, then we consider
+the cubie to be oriented clockwise: +1. If twisting the cubie clockwise brings it into the oriented
+state, we consider the cubie to be oriented counterclockwise, or +2.
+
+
+
+Description of the Face Numbering:
+The faces are named: Up(U), Front(F), Right(R), Down(D), Back(B) and Left(L). The color scheme is
+not specified which makes this definition more general.
+Once the face scheme is defined, defining moves is easy: I represent the twists clockwise, half-turn
+or counterclockwise by 1, 2 or 3. For example U1 defines a clockwise twist of the Up face.
+{U3:0, U2:1, U1:2,
+F3:3, F2:4, F1:5,
+R3:6, R2:7, R1:8,
+D3:9, D2:10, D1:11,
+B3:12, B2:13, B1:14,
+L3:15, L2:16, L1:17}
+
+
+/*
+    index table
+      0 - ULB (u1/l1/b3)            9 - UB (u2/b2)              18 - URB (u3,r3,b1)
+      1 - UL  (u4/l2)              10 - U  (u5)                 19 - UR (u6,r2)
+      2 - ULF (u7/f1/l3)           11 - UF (u8/f2)              20 - UFR (u9,f3,r1)
+      3 - BL (l4/b6)               12 - B (b5)                  21 - BR (r6,b4)
+      4 - L (l5)                   13 - NONE                    22 - R (r5)
+      5 - LF (l6,f4)               14 - F (f5)                  23 - FR (f6,r4)
+      6 - DLB (l7,d7,b9)           15 - DB (d8,b8)              24 - DRB (d9,r9,b7)
+      7 - DL (l8,d4)               16 - D (d5)                  25 - DR (r8,d6)
+      8 - DLF (l9,f7,d1)           17 - DF (d2,f8)              26 - DFR (f9,d3,r7)
+
+    */
+
+
+
+
+
+
+
+

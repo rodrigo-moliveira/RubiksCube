@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="lib1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/RubiksCube/out/production/Rubiks/lib/lwjgl-3.2.1-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/RubiksCube/out/production/Rubiks/lib/lwjgl-3.2.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
