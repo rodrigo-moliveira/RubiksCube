@@ -30,7 +30,10 @@ public class ThisletwaiteDB {
     private final int[] allowable_moves = new int[18];
     private File file;
     private FileWriter myWriter;
-    private final String PATH = "/Database/Thisletwaite/";
+    private static final String PATH = "/src/Database/Thisletwaite/";
+
+    //map G2 to G3
+    private static final int[] phase3CornerMap = {0, 3, 1, 2, 4, 7};
 
     //coset G3 to G4
     private static final int[] g34cornerOrbit1 = {0,3,5,6};
@@ -53,7 +56,7 @@ public class ThisletwaiteDB {
             allowable_moves[i] = 1;
 
         for (int phase = 1; phase <= 4; phase++) {
-            InputStream path = getClass().getResourceAsStream("/src/Database/Thisletwaite/phase" + phase + ".txt");
+            InputStream path = this.getClass().getResourceAsStream(PATH + "phase" + phase + ".txt");
             HashMap<Long, String> currentHash;
             try {
                 currentHash = new HashMap<>();
@@ -68,7 +71,7 @@ public class ThisletwaiteDB {
                 phaseHashList.add(currentHash);
                 nextPhase(phase);
                 continue;
-            } catch (IOException | DatabaseFormatError e) {
+            } catch (IOException | NullPointerException  | DatabaseFormatError e) {
                 System.out.println("Database file not found or some errors were found. " +
                         "Generating new file (this process might take a while)");
                 buildDBs(phase);
@@ -141,7 +144,6 @@ public class ThisletwaiteDB {
 
         //create closed list (contains all states that have been successfully expanded in the BFS)
         List<Long> closed_list=new ArrayList<>();
-
 
         //create file to write current phase database
         try {
@@ -248,50 +250,34 @@ public class ThisletwaiteDB {
         long id = 0;
         byte [] corners = c.getCornersArray();
         byte [] edges = c.getEdgesArray();
+        int perm,k,multiplier;
 
-        /*
-        * bit 1 -> corner belongs to Orbit 1
-        * bit 0 -> corner belongs to Orbit 0
-        */
-        int perm = Cube.corner_perm(corners[0]);
-        id +=  (1L << 2*perm);
-        perm = Cube.corner_perm(corners[3]);
-        id +=  (1L << 2*perm);
+        //mapping corner orbits
+        for (int i = 0; i < phase3CornerMap.length; i++) {
+            k = phase3CornerMap[i];
+            multiplier = (i / 2) + 1;
+            perm = Cube.corner_perm(corners[k]);
+            id += ((long) multiplier << 2 * perm);
+        }
 
-
-        perm = Cube.corner_perm(corners[1]);
-        id +=  (2L << 2*perm);
-        perm = Cube.corner_perm(corners[2]);
-        id +=  (2L << 2*perm);
-
-        perm = Cube.corner_perm(corners[4]);
-        id +=  (3L << 2*perm);
-        perm = Cube.corner_perm(corners[7]);
-        id +=  (3L << 2*perm);
-
-
-
+        //mapping edge orbits
         for (int index = 0; index < 12; index++){
-            if (index >= 4 && index <= 7)
+            if (Cube.isEdgeInUDSlice(index) == 1)
                 continue;
-            perm = Cube.edge_perm(edges[index]);
             int finalIndex = index;
-            int finalPerm = perm;
+            int finalPerm = Cube.edge_perm(edges[index]);
             boolean isCorrectOrbit =  (Arrays.stream(g34edgeOrbit1).anyMatch(j -> j == finalIndex) && Arrays.stream(g34edgeOrbit1).anyMatch(j -> j == finalPerm) ||
-                    (!Arrays.stream(g34edgeOrbit1).anyMatch(j -> j == finalIndex) && Arrays.stream(g34edgeOrbit2).anyMatch(j -> j == finalPerm)));
+                    (Arrays.stream(g34edgeOrbit1).noneMatch(j -> j == finalIndex) && Arrays.stream(g34edgeOrbit2).anyMatch(j -> j == finalPerm)));
             if (!isCorrectOrbit) {
-                id +=  (1L << (perm + 30));
+                id +=  (1L << (finalPerm + 30));
             }
         }
 
-//        //parity check
+       //parity check
         id <<= 1;
         for (int i = 0; i < 8; i++ )
             for( int j = i + 1; j < 8; j++ )
                 id ^= (Cube.corner_perm(corners[i]) > Cube.corner_perm(corners[j])) ? 1 : 0;
-
-
-
         return id;
     }
 
@@ -340,7 +326,7 @@ public class ThisletwaiteDB {
 
     private void createFile(int phase){
         try {
-            this.file = new File(PATH + "phase" + phase + ".txt");
+            this.file = new File("RubiksCube/src/Database/Thisletwaite/phase" + phase + ".txt");
             if (this.file.createNewFile()) {
                 System.out.println("File created: " + this.file.getName());
             } else {
@@ -364,6 +350,7 @@ public class ThisletwaiteDB {
         }
     }
     private void closeFile(){
+
         try {
             myWriter.close();
         } catch (IOException e) {
