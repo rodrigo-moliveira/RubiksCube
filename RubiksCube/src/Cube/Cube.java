@@ -70,19 +70,19 @@ public class Cube implements Cloneable{
 
 
     /*5. - Dictionaries*/
-    public static final HashMapInvert<Byte,String > corner_table = new HashMapInvert<>() {{
+    public static final HashMapInvert<Byte,String > corner_table = new HashMapInvert<Byte,String>() {{
         put((byte) 0,"UBL");put((byte) 1,"URB");put((byte) 2,"ULF");put((byte) 3,"UFR");
         put((byte) 4,"DLB");put((byte) 5,"DBR");put((byte) 6,"DFL");put((byte) 7,"DRF");
     }};
 
-    private static final HashMapInvert<Byte,String > edge_table = new HashMapInvert<>() {{
+    private static final HashMapInvert<Byte,String > edge_table = new HashMapInvert<Byte,String>() {{
         put((byte)0,"UB"); put((byte)4,"LB"); put((byte)8,"DB");
         put((byte)1,"UL"); put((byte)5,"RB"); put((byte)9,"DL");
         put((byte)2,"UR"); put((byte)6,"LF"); put((byte)10,"DR");
         put((byte)3,"UF"); put((byte)7,"RF"); put((byte)11,"DF");
     }};
 
-    public static final HashMapInvert<String,Byte> move_dict = new HashMapInvert<>() {{
+    public static final HashMapInvert<String,Byte> move_dict = new HashMapInvert<String,Byte>() {{
         put("U1", (byte) 0); put("U2", (byte) 1); put("U3", (byte) 2);
         put("F1", (byte) 3); put("F2", (byte) 4); put("F3", (byte) 5);
         put("R1", (byte) 6); put("R2", (byte) 7); put("R3", (byte) 8);
@@ -91,7 +91,7 @@ public class Cube implements Cloneable{
         put("L1", (byte) 15); put("L2", (byte) 16); put("L3", (byte) 17);
     }};
 
-    private static final Map<Character,Byte> faces = new HashMap<>() {{
+    private static final Map<Character,Byte> faces = new HashMap<Character,Byte>() {{
         put('U', (byte) 0); put('F', (byte) 1); put('R', (byte) 2);
         put('D', (byte) 3); put('B', (byte) 4); put('L', (byte) 5);
     }};

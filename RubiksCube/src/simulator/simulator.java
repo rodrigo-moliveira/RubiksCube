@@ -6,19 +6,17 @@ package src.simulator;
 import src.Cube.Cube;
 import src.Thisletwaite.ThisletwaiteSolver;
 import peasy.PeasyCam;
-import processing.awt.PSurfaceAWT;
 import processing.core.PApplet;
 import processing.core.PMatrix2D;
 
-import processing.core.PSurface;
 import uibooster.*;
 import uibooster.model.*;
 import src.utils.Exceptions.DatabaseGenerationError;
 import src.utils.Exceptions.SingmasterError;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import processing.opengl.*;
 
 
 public class simulator extends PApplet {
@@ -71,7 +69,7 @@ public class simulator extends PApplet {
             new Move(0, 0, -1, 1,this),   //B'
             new Move(0, 0, -1, -1,this)   //B
     };
-    private static final HashMap<String,Integer > moveDictionary = new HashMap<>() {{
+    private static final HashMap<String,Integer > moveDictionary = new HashMap<String,Integer>() {{
         put("D3",0);put("D1",1);put("U1",2);put("U3",3);put("R1",4);put("R3",5);
         put("L3",6);put("L1",7);put("F1",8);put("F3",9);put("B3",10);put("B1",11);
 
@@ -243,11 +241,10 @@ public class simulator extends PApplet {
                     .addButton("Random Scramble", this::randomScramble)
                     .run();
         } else if (button2over) {
-            String InputSequence = booster.showTextInputDialog("""
-                    Insert move sequence
-                    possible moves:
-                    R1,R2,R3,L1,L2,L3,F1,F2,F3,
-                    B1,B2,B3,U1,U2,U3,D1,D2,D3""");
+            String InputSequence = booster.showTextInputDialog("Insert move sequence " +
+                    "\npossible moves:" +
+                    "\nR1,R2,R3,L1,L2,L3,F1,F2,F3,\n" +
+                    "B1,B2,B3,U1,U2,U3,D1,D2,D3");
             ApplyMove(InputSequence);
 
 

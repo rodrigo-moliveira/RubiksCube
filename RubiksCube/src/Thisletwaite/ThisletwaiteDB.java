@@ -1,6 +1,6 @@
 package src.Thisletwaite;
 
-import src.Search.CubeNode;
+import src.Search.ThisletwaiteNode;
 import src.Cube.Cube;
 import src.utils.Exceptions.DatabaseFormatError;
 import src.utils.Exceptions.DatabaseGenerationError;
@@ -75,14 +75,7 @@ public class ThisletwaiteDB {
             }
             phase--;
         }
-
-//        seeAllowedCornerPermutationsG3();
-
-
-        //assert if each hash has the correct size
-        if (phaseHashList.get(0).size() != 2048 || phaseHashList.get(1).size() != 1082565)
-            throw new DatabaseGenerationError("Thisletwaite databases not correctly created. Aborting");
-     }
+    }
 
 
     Line process_data(String line) throws DatabaseFormatError {
@@ -129,7 +122,6 @@ public class ThisletwaiteDB {
     void buildDBs(int phase){
         int size = 1;
         long id, id_goal;
-        int counter = 0;
         Cube cube = new Cube(); //initialize a solved cube object
 
         //get phaseID function
@@ -143,8 +135,8 @@ public class ThisletwaiteDB {
         }
 
         //create open list of search and add node with solved state
-        Queue<CubeNode<Cube,Integer,Long>> open_list = new LinkedList<>();
-        CubeNode<Cube,Integer,Long> searchNode = new CubeNode<>(cube.clone(), id_goal);
+        Queue<ThisletwaiteNode<Cube,Long>> open_list = new LinkedList<>();
+        ThisletwaiteNode<Cube,Long> searchNode = new ThisletwaiteNode<>(cube.clone(), id_goal);
         open_list.add(searchNode);
 
         //create closed list (contains all states that have been successfully expanded in the BFS)
@@ -183,10 +175,10 @@ public class ThisletwaiteDB {
                             if (!closed_list.contains(id)) {
                                 closed_list.add(id);
                                 String action = Cube.move_dict.getKey((byte)(3 * move + 2 - amount));
-                                CubeNode<Cube,Integer,Long> new_node = new CubeNode<>(searchNode.getState().clone(), id,
+                                ThisletwaiteNode<Cube,Long> new_node = new ThisletwaiteNode<>(searchNode.getState().clone(), id,
                                         action + searchNode.getPath());
                                 open_list.add(new_node);
-                                counter++;
+
 
                                 //insert in file
                                 this.writeToFile(id + ", " + new_node.getPath() + "\n");
@@ -196,7 +188,6 @@ public class ThisletwaiteDB {
                 }
                 searchNode.getState().move(3 * move); // 4th move
             }
-
             size = open_list.size();
         }
         this.closeFile();
@@ -205,19 +196,19 @@ public class ThisletwaiteDB {
 
     private void nextPhase(int phase){
         switch (phase) {
-            case 1 -> {
+            case 1: {
                 allowable_moves[6] = 0;
                 allowable_moves[8] = 0;
                 allowable_moves[15] = 0;
                 allowable_moves[17] = 0;
             }
-            case 2 -> {
+            case 2 : {
                 allowable_moves[3] = 0;
                 allowable_moves[5] = 0;
                 allowable_moves[12] = 0;
                 allowable_moves[14] = 0;
             }
-            case 3 -> {
+            case 3 : {
                 allowable_moves[0] = 0;
                 allowable_moves[2] = 0;
                 allowable_moves[9] = 0;
@@ -293,9 +284,6 @@ public class ThisletwaiteDB {
             }
         }
 
-
-
-
 //        //parity check
         id <<= 1;
         for (int i = 0; i < 8; i++ )
@@ -307,27 +295,6 @@ public class ThisletwaiteDB {
         return id;
     }
 
-    boolean checkPermutation(byte [] corners){
-        int[] orbit1 = new int[4];
-        int[] orbit2 = new int[4];
-
-        for (int i = 0; i < 4; i++) {
-            int perm = Cube.corner_perm(corners[g34cornerOrbit1[i]]);
-            int index = Arrays.stream(g34cornerOrbit1).boxed().collect(Collectors.toList()).indexOf(perm);
-            orbit1[i] = index;
-
-            perm = Cube.corner_perm(corners[g34cornerOrbit2[i]]);
-            index = Arrays.stream(g34cornerOrbit2).boxed().collect(Collectors.toList()).indexOf(perm);
-            orbit2[i] = index;
-        }
-        int[] possible1 = {orbit1[0],orbit1[1],orbit1[2],orbit1[3]};
-        int[] possible2 = {orbit1[2],orbit1[3],orbit1[0],orbit1[1]};
-        int[] possible3 = {orbit1[1],orbit1[0],orbit1[3],orbit1[2]};
-        int[] possible4 = {orbit1[3],orbit1[2],orbit1[1],orbit1[0]};
-
-        return Arrays.equals(orbit2, possible1) || Arrays.equals(orbit2, possible2) || Arrays.equals(orbit2, possible3) ||
-                Arrays.equals(orbit2, possible4);
-    }
 
     public long idPhase4(Cube c){
         long id = 0;
@@ -369,22 +336,6 @@ public class ThisletwaiteDB {
         }
         return id;
     }
-
-
-    public long idPhase5(Cube c){
-        long id = 0;
-        byte [] corners = c.getCornersArray();
-        byte [] edges = c.getEdgesArray();
-
-        for (int i = 0; i < 8; i++){
-            int perm = Cube.corner_perm(corners[i]);
-            id += perm;
-            id <<=3;
-        }
-
-        return id;
-    }
-
 
 
     private void createFile(int phase){
@@ -440,101 +391,6 @@ public class ThisletwaiteDB {
         }
 
         return solution;
-    }
-
-    void seeAllowedCornerPermutationsG3(){
-        int size = 1;
-        long id, id_goal;
-        int counter = 0;
-        Cube cube = new Cube(); //initialize a solved cube object
-        System.out.println("phase 5\n\n\n");
-        id_goal = idPhase5(cube);
-
-        System.out.println(id_goal);
-
-        //create open list of search and add node with solved state
-        Queue<CubeNode<Cube,Integer,Long>> open_list = new LinkedList<>();
-        CubeNode<Cube,Integer,Long> searchNode = new CubeNode<>(cube.clone(), id_goal);
-        open_list.add(searchNode);
-
-        //create closed list (contains all states that have been successfully expanded in the BFS)
-        List<Long> closed_list=new ArrayList<>();
-
-
-
-        //Do breath first search of current phase
-        while (size != 0) {
-            searchNode = open_list.remove();
-
-            for (int move = 0; move < 6; move++) {
-                for (int amount = 0; amount < 3; amount++) {
-                    searchNode.getState().move(3 * move );
-
-                    //check if move is allowed in this phase
-                    if (allowable_moves[3 * move + amount] == 1) {
-                        id = idPhase5(searchNode.getState()); // pass arg
-
-
-                        if (id != id_goal) {
-                            if (!closed_list.contains(id)) {
-                                closed_list.add(id);
-                                String action = Cube.move_dict.getKey((byte)(3 * move + 2 - amount));
-                                CubeNode<Cube,Integer,Long> new_node = new CubeNode<>(searchNode.getState().clone(), id,
-                                        action + searchNode.getPath());
-                                open_list.add(new_node);
-                                counter++;
-
-                                //insert in file
-                                int[] orbit1 = new int[4];
-                                int[] orbit2 = new int[4];
-                                int[] orbit1indx = new int[4];
-                                int[] orbit2indx = new int[4];
-                                int[] tot = new int[8];
-                                byte [] corners = new_node.getState().getCornersArray();
-
-                                for (int i = 0; i < 4; i++) {
-                                    int perm = Cube.corner_perm(corners[g34cornerOrbit1[i]]);
-                                    int index = Arrays.stream(g34cornerOrbit1).boxed().collect(Collectors.toList()).indexOf(perm);
-                                    orbit1[i] = perm;
-                                    orbit1indx[i] = index;
-
-                                    perm = Cube.corner_perm(corners[g34cornerOrbit2[i]]);
-                                    index = Arrays.stream(g34cornerOrbit2).boxed().collect(Collectors.toList()).indexOf(perm);
-                                    orbit2indx[i] = index;
-                                    orbit2[i] = perm;
-                                }
-                                for (int i = 0; i < 8; i++)
-                                        tot[i] = Cube.corner_perm(corners[i]);
-
-                                System.out.println(Arrays.toString(orbit1) + " " + Arrays.toString(orbit2) + " " + Arrays.toString(orbit1indx) + " " + Arrays.toString(orbit2indx) + " " + idPhase3(new_node.getState()));
-                            }
-                        }
-                    }
-                }
-                searchNode.getState().move(3 * move); // 4th move
-            }
-            size = open_list.size();
-        }
-    }
-
-
-
-    public static int indexOfSmallest(int[] array){
-
-        // add this
-        if (array.length == 0)
-            return -1;
-
-        int index = 0;
-        int min = array[index];
-
-        for (int i = 1; i < array.length; i++){
-            if (array[i] <= min){
-                min = array[i];
-                index = i;
-            }
-        }
-        return index;
     }
 
 }

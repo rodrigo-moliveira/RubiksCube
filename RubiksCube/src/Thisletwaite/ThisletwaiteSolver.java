@@ -21,17 +21,6 @@ public class ThisletwaiteSolver {
                 c.Move(solution);
                 totalSolution.append(solution);
             }
-//            switch (phase){
-//                case 1 ->
-//                        System.out.println("ID after phase 1 - " + db.idPhase1(c));
-//                case 2 ->
-//                        System.out.println("ID after phase 2 - " + db.idPhase2(c));
-//                case 3 ->
-//                        System.out.println("ID after phase 3 - " + db.idPhase3(c));
-//                case 4 ->
-//                        System.out.println("ID after phase 4 - " + db.idPhase4(c));
-//            }
-
         }
         return totalSolution.toString();
     }
