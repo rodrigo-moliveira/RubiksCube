@@ -3,7 +3,6 @@ package src.Thisletwaite;
 import src.Search.ThisletwaiteNode;
 import src.Cube.Cube;
 import src.utils.Exceptions.DatabaseFormatError;
-import src.utils.Exceptions.DatabaseGenerationError;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -46,14 +45,8 @@ public class ThisletwaiteDB {
     List<HashMap<Long, String>> phaseHashList = new ArrayList<>();
 
 
-
-
-    public ThisletwaiteDB() throws DatabaseGenerationError {
+    public ThisletwaiteDB() {
         System.out.println("Initializing Thisletwaite Database");
-
-        //activating all moves
-        for (int i = 0; i < 18; i++)
-            allowable_moves[i] = 1;
 
         for (int phase = 1; phase <= 4; phase++) {
             InputStream path = this.getClass().getResourceAsStream(PATH + "phase" + phase + ".txt");
@@ -69,14 +62,10 @@ public class ThisletwaiteDB {
                     currentHash.put(data.getId(), data.getPath());
                 }
                 phaseHashList.add(currentHash);
-                nextPhase(phase);
-                continue;
+
             } catch (IOException | NullPointerException  | DatabaseFormatError e) {
-                System.out.println("Database file not found or some errors were found. " +
-                        "Generating new file (this process might take a while)");
-                buildDBs(phase);
+                e.printStackTrace();
             }
-            phase--;
         }
     }
 
@@ -284,41 +273,31 @@ public class ThisletwaiteDB {
 
     public long idPhase4(Cube c){
         long id = 0;
+        int perm,index;
         byte [] corners = c.getCornersArray();
         byte [] edges = c.getEdgesArray();
 
-        //corner Orbits
-        for (int i = 0; i < 3; i++){
-            int perm = Cube.corner_perm(corners[g34cornerOrbit1[i]]);
-            int index = Arrays.stream(g34cornerOrbit1).boxed().collect(Collectors.toList()).indexOf(perm);
-            id += index;
-            id <<= 2;
-        }
-        for (int i = 0; i < 3; i++){
-            int perm = Cube.corner_perm(corners[g34cornerOrbit2[i]]);
-            int index = Arrays.stream(g34cornerOrbit2).boxed().collect(Collectors.toList()).indexOf(perm);
-            id += index;
-            id <<= 2;
+        int[][] arrays_c = {g34cornerOrbit1,g34cornerOrbit2};
+        int[][] arrays_e = {g34edgeOrbit1,g34edgeOrbit2,g34edgeOrbit3};
+
+        for (int[] array : arrays_c) {
+            //corner Orbits
+            for (int i = 0; i < 3; i++) {
+                perm = Cube.corner_perm(corners[array[i]]);
+                index = Arrays.stream(array).boxed().collect(Collectors.toList()).indexOf(perm);
+                id += index;
+                id <<= 2;
+            }
         }
 
-        //Edge Orbits
-        for (int i = 0; i < 3; i++){
-            int perm = Cube.edge_perm(edges[g34edgeOrbit1[i]]);
-            int index = Arrays.stream(g34edgeOrbit1).boxed().collect(Collectors.toList()).indexOf(perm);
-            id += index;
-            id <<= 2;
-        }
-        for (int i = 0; i < 3; i++){
-            int perm = Cube.edge_perm(edges[g34edgeOrbit2[i]]);
-            int index = Arrays.stream(g34edgeOrbit2).boxed().collect(Collectors.toList()).indexOf(perm);
-            id += index;
-            id <<= 2;
-        }
-        for (int i = 0; i < 3; i++){
-            int perm = Cube.edge_perm(edges[g34edgeOrbit3[i]]);
-            int index = Arrays.stream(g34edgeOrbit3).boxed().collect(Collectors.toList()).indexOf(perm);
-            id += index;
-            id <<= 2;
+        for (int[] array : arrays_e) {
+            //corner Orbits
+            for (int i = 0; i < 3; i++) {
+                perm = Cube.edge_perm(edges[array[i]]);
+                index = Arrays.stream(array).boxed().collect(Collectors.toList()).indexOf(perm);
+                id += index;
+                id <<= 2;
+            }
         }
         return id;
     }
@@ -378,6 +357,20 @@ public class ThisletwaiteDB {
         }
 
         return solution;
+    }
+
+    public static void main(String[] args){
+
+        ThisletwaiteDB local = new ThisletwaiteDB();
+
+        //activating all moves
+        for (int i = 0; i < 18; i++)
+            local.allowable_moves[i] = 1;
+
+        local.buildDBs(1); local.nextPhase(1);
+        local.buildDBs(2); local.nextPhase(2);
+        local.buildDBs(3); local.nextPhase(3);
+        local.buildDBs(4);
     }
 
 }
