@@ -1,7 +1,7 @@
 package src.RubiksVision;
 
 /*TODO:
-*   Falta converter isto para HSV -> que burro*/
+*   Falta converter isto para HSV -> que burrso*/
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
