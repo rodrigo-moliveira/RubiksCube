@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.RubiksVision.Controller">
+   <bottom>
+      <Label id="mouseCoordinates" text="Label" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+         </padding>
+      </Label>
+   </bottom>
+   <top>
+      <Button fx:id="loadButton" mnemonicParsing="false" text="Button" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </Button>
+   </top>
+   <center>
+      <ImageView fx:id="cubeIm" fitWidth="400.0" onMouseClicked="#mouseClicked" pickOnBounds="true" preserveRatio="true" smooth="false" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@data/sample-solved.jpg" />
+         </image>
+      </ImageView>
+   </center>
+</BorderPane>

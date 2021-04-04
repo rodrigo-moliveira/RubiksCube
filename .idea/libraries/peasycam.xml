@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="peasycam">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/RubiksCube/lib/peasycam" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/RubiksCube/lib/peasycam" recursive="false" />
+  </library>
+</component>
