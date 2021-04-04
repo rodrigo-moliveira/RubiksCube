@@ -18,7 +18,7 @@ public class VisionMain extends Application
         try
         {
             // load the FXML resource
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("calibrateHSV.fxml"));
             // store the root element so that the controllers can use it
             BorderPane rootElement = (BorderPane) loader.load();
             // create and style a scene
