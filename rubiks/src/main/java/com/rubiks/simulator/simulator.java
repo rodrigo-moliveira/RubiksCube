@@ -1,22 +1,19 @@
-//this class is adapted from https://thecodingtrain.com/CodingChallenges/142.3-rubiks-cube.html
-// original author: Daniel Shiffman
+package com.rubiks.simulator;
 
-package src.simulator;
 
-import src.Cube.Cube;
-import src.Thisletwaite.ThisletwaiteSolver;
+import com.rubiks.cube.Cube;
+import com.rubiks.Thisletwaite.ThisletwaiteSolver;
 import peasy.PeasyCam;
 import processing.core.PApplet;
 import processing.core.PMatrix2D;
 
 import uibooster.*;
 import uibooster.model.*;
-import src.utils.Exceptions.DatabaseGenerationError;
-import src.utils.Exceptions.SingmasterError;
+import com.rubiks.utils.Exceptions.DatabaseGenerationError;
+import com.rubiks.utils.Exceptions.SingmasterError;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import processing.opengl.*;
 
 
 
