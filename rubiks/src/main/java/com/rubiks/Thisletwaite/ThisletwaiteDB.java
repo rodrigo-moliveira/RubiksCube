@@ -7,6 +7,7 @@ import com.rubiks.utils.Exceptions.DatabaseFormatError;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class ThisletwaiteDB {
     private final int[] allowable_moves = new int[18];
     private File file;
     private FileWriter myWriter;
-    private static final String PATH = "/home/rodrigo/Documents/projects/RubiksCube/rubiks/src/main/java/com/rubiks/db/Thisletwaite/";
+    private static final String PATH = "db/";
 
     //map G2 to G3
     private static final int[] phase3CornerMap = {0, 3, 1, 2, 4, 7};
@@ -50,16 +51,12 @@ public class ThisletwaiteDB {
 
         for (int phase = 1; phase <= 4; phase++) {
             InputStream path = this.getClass().getResourceAsStream(PATH + "phase" + phase + ".txt");
-            System.out.println(PATH + "phase" + phase + ".txt");
+
             HashMap<Long, String> currentHash;
             try {
+            	System.out.println("Reading phase " + phase + "...");
                 currentHash = new HashMap<Long, String>();
-                System.out.println(path);
-                InputStreamReader ss = new InputStreamReader(path);
-                System.out.println(ss);
-//                System.out.println(new InputStreamReader(path));
                 BufferedReader rd = new BufferedReader(new InputStreamReader(path));
-                System.out.println(rd);
                 String line;
 
                 //process data & fill the hash table
@@ -72,6 +69,8 @@ public class ThisletwaiteDB {
             } catch (IOException | NullPointerException  | DatabaseFormatError e) {
                 e.printStackTrace();
             }
+            
+            System.out.println("Successfully read phase " + phase);
         }
     }
 

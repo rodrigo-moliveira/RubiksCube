@@ -2,25 +2,25 @@ package com.rubiks.simulator;
 
 
 import com.rubiks.cube.Cube;
+import com.rubiks.simulator.forms.InitialStateForm;
 import com.rubiks.Thisletwaite.ThisletwaiteSolver;
 import peasy.PeasyCam;
 import processing.core.PApplet;
 import processing.core.PMatrix2D;
 
-import uibooster.*;
-import uibooster.model.*;
+
 import com.rubiks.utils.Exceptions.DatabaseGenerationError;
-import com.rubiks.utils.Exceptions.SingmasterError;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JFrame;
 
 
 public class simulator extends PApplet {
     //Solver and Internal Representation Variables
-    Cube internalState = new Cube();
-    ThisletwaiteSolver solver;
+    protected Cube internalState = new Cube();
+    protected ThisletwaiteSolver solver;
     {
         try {
             solver = new ThisletwaiteSolver();
@@ -40,7 +40,7 @@ public class simulator extends PApplet {
     //Processing related variables
     PeasyCam cam;
     float speed = 0.1f;//0.05f;
-    FilledForm form;
+    //Form form;
     int button1X, button2X, button3X, buttonsY;
     int rectSizeX = 120;     // Diameter of rect
     int rectSizeY = 80;     // Diameter of rect
@@ -48,9 +48,8 @@ public class simulator extends PApplet {
     int rectHighlight;
     int currentColor;
     boolean button1over = false,button2over = false, button3over = false;
-    UiBooster booster = new UiBooster();
     SingmasterSketch singmastersketch;
-
+    final JFrame frame = new JFrame();
 
     //setting up all moves
     Move[] allMoves = new Move[] {
@@ -86,12 +85,9 @@ public class simulator extends PApplet {
         ellipseMode(CENTER);
         currentMove = allMoves[0];
 
-
-
         cam = new PeasyCam(this, 400);
         myUtils.UpdateSingmasterState(cube,internalState.toSingMasterNotation());
-
-
+        
     }
 
 
@@ -200,21 +196,21 @@ public class simulator extends PApplet {
         internalState = new Cube().randomize();
         String str = internalState.toSingMasterNotation();
         myUtils.UpdateSingmasterState(cube,str);
-        form.close();
+        //form.close();
 
     }
 
     public void singmasterScramble(){
-        String singmaster = (String) form.getByLabel("Insert initial state using Singmaster Notation:").getValue();
-        try {
-            internalState = new Cube().fromSingMasterNotation(singmaster);
-            myUtils.UpdateSingmasterState(cube,internalState.toSingMasterNotation());
-        } catch (SingmasterError singmasterError) {
-            booster.showErrorDialog(singmasterError.toString() + "\n" +
-                    "Please see documentation for error codes","ERROR");
-//            singmasterError.printStackTrace();
-        }
-        form.close();
+//        String singmaster = (String) form.getByLabel("Insert initial state using Singmaster Notation:").getValue();
+//        try {
+//            internalState = new Cube().fromSingMasterNotation(singmaster);
+//            myUtils.UpdateSingmasterState(cube,internalState.toSingMasterNotation());
+//        } catch (SingmasterError singmasterError) {
+//            booster.showErrorDialog(singmasterError.toString() + "\n" +
+//                    "Please see documentation for error codes","ERROR");
+////            singmasterError.printStackTrace();
+//        }
+//        form.close();
     }
 
     public void launchSingmasterSketch(){
@@ -232,27 +228,29 @@ public class simulator extends PApplet {
     public void mousePressed() {
 
         if (button1over) {
-            form = booster.createForm("Input State")
-                    .addText("Insert initial state using Singmaster Notation:")
-                    .addButton("Input Singmaster Scramble", this::singmasterScramble)
-                    .addButton("Help: See Singmaster Notation Map", this::launchSingmasterSketch)
-                    .addButton("Random Scramble", this::randomScramble)
-                    .run();
+        	InitialStateForm form = new InitialStateForm();
+        	form.run();
+//            form = booster.createForm("Input State")
+//                    .addText("Insert initial state using Singmaster Notation:")
+//                    .addButton("Input Singmaster Scramble", this::singmasterScramble)
+//                    .addButton("Help: See Singmaster Notation Map", this::launchSingmasterSketch)
+//                    .addButton("Random Scramble", this::randomScramble)
+//                    .run();
         } else if (button2over) {
-            String InputSequence = booster.showTextInputDialog("Insert move sequence " +
-                    "\npossible moves:" +
-                    "\nR1,R2,R3,L1,L2,L3,F1,F2,F3,\n" +
-                    "B1,B2,B3,U1,U2,U3,D1,D2,D3");
-            ApplyMove(InputSequence);
+//            String InputSequence = booster.showTextInputDialog("Insert move sequence " +
+//                    "\npossible moves:" +
+//                    "\nR1,R2,R3,L1,L2,L3,F1,F2,F3,\n" +
+//                    "B1,B2,B3,U1,U2,U3,D1,D2,D3");
+//            ApplyMove(InputSequence);
 
 
         }else if (button3over) {
-            if (internalState.isSolved())
-                booster.showInfoDialog("Cube is already solved. No solution was processed.");
-            else {
-                String solution = solver.solve(internalState.clone());
-                ApplyMove(solution);
-            }
+//            if (internalState.isSolved())
+//                booster.showInfoDialog("Cube is already solved. No solution was processed.");
+//            else {
+//                String solution = solver.solve(internalState.clone());
+//                ApplyMove(solution);
+//            }
         }
 
     }
@@ -262,7 +260,7 @@ public class simulator extends PApplet {
     public void ApplyMove(String moves){
         sequence.clear();
         if(!Cube.checkMoveSequence(moves)) {
-            booster.showErrorDialog("Move sequence is not in correct form.", "ERROR");
+//            booster.showErrorDialog("Move sequence is not in correct form.", "ERROR");
             return;
         }
 
@@ -323,7 +321,7 @@ public class simulator extends PApplet {
         }
     }
     public void settings() {
-        System.setProperty("jogl.disable.openglcore", "false");
+        //System.setProperty("jogl.disable.openglcore", "false");
         size(600, 600, P3D); }
 
 

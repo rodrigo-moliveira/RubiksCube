@@ -32,7 +32,5 @@
 	<classpathentry kind="lib" path="/home/rodrigo/Documents/projects/RubiksCube/RubiksCube/lib/processing/jogl-all-natives-linux-amd64.jar"/>
 	<classpathentry kind="lib" path="/home/rodrigo/Documents/projects/RubiksCube/RubiksCube/lib/processing/peasycam.jar"/>
 	<classpathentry kind="lib" path="/home/rodrigo/Documents/projects/RubiksCube/RubiksCube/lib/processing/peasy-math.jar"/>
-	<classpathentry kind="lib" path="/home/rodrigo/Documents/projects/RubiksCube/RubiksCube/lib/uiBooster/darcula-2018.2.jar"/>
-	<classpathentry kind="lib" path="/home/rodrigo/Documents/projects/RubiksCube/RubiksCube/lib/uiBooster/UiBooster.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
