@@ -30,7 +30,7 @@ public class ThisletwaiteDB {
     private final int[] allowable_moves = new int[18];
     private File file;
     private FileWriter myWriter;
-    private static final String PATH = "db/";
+    private static final String PATH = "/db/";
 
     //map G2 to G3
     private static final int[] phase3CornerMap = {0, 3, 1, 2, 4, 7};
@@ -50,13 +50,13 @@ public class ThisletwaiteDB {
         System.out.println("Initializing Thisletwaite Database");
 
         for (int phase = 1; phase <= 4; phase++) {
-            InputStream path = this.getClass().getResourceAsStream(PATH + "phase" + phase + ".txt");
-
+        	URL path = getClass().getResource(PATH + "phase" + phase + ".txt");
             HashMap<Long, String> currentHash;
             try {
             	System.out.println("Reading phase " + phase + "...");
                 currentHash = new HashMap<Long, String>();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(path));
+
+                BufferedReader rd = new BufferedReader(new InputStreamReader(path.openStream()));
                 String line;
 
                 //process data & fill the hash table
@@ -364,18 +364,18 @@ public class ThisletwaiteDB {
         return solution;
     }
 
-    public static void main(String[] args){
-
-        ThisletwaiteDB local = new ThisletwaiteDB();
-
-        //activating all moves
-        for (int i = 0; i < 18; i++)
-            local.allowable_moves[i] = 1;
-
-        local.buildDBs(1); local.nextPhase(1);
-        local.buildDBs(2); local.nextPhase(2);
-        local.buildDBs(3); local.nextPhase(3);
-        local.buildDBs(4);
-    }
+//    public static void main(String[] args){
+//
+//        ThisletwaiteDB local = new ThisletwaiteDB();
+//
+//        //activating all moves
+//        for (int i = 0; i < 18; i++)
+//            local.allowable_moves[i] = 1;
+//
+//        local.buildDBs(1); local.nextPhase(1);
+//        local.buildDBs(2); local.nextPhase(2);
+//        local.buildDBs(3); local.nextPhase(3);
+//        local.buildDBs(4);
+//    }
 
 }

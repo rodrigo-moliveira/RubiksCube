@@ -228,14 +228,14 @@ public class simulator extends PApplet {
     public void mousePressed() {
 
         if (button1over) {
-        	InitialStateForm form = new InitialStateForm();
-        	form.run();
-//            form = booster.createForm("Input State")
-//                    .addText("Insert initial state using Singmaster Notation:")
-//                    .addButton("Input Singmaster Scramble", this::singmasterScramble)
-//                    .addButton("Help: See Singmaster Notation Map", this::launchSingmasterSketch)
-//                    .addButton("Random Scramble", this::randomScramble)
-//                    .run();
+        	try {
+	        	InitialStateForm form = new InitialStateForm();
+	        	form.launchForm();
+        	} catch(Exception e)
+        	{
+        		e.printStackTrace();
+        	}
+        	
         } else if (button2over) {
 //            String InputSequence = booster.showTextInputDialog("Insert move sequence " +
 //                    "\npossible moves:" +
