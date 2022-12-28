@@ -103,7 +103,6 @@
                 <configuration>
                     <mainClass>com.rubiks.mainApp</mainClass>
                     <!--<executable>/snap/eclipse/66//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.linux.x86_64_17.0.5.v20221102-0933/jre/bin/java</executable>-->
-                    <!--<executable>/home/rodrigo/Documents/tools/jdk-17.0.5/bin/java</executable>-->
                     <executable>/home/rodrigo/Documents/tools/org.eclipse.justj.openjdk.hotspot.jre.full-17.0.5-linux-x86_64/bin/java</executable>
                 </configuration>
             </plugin>
