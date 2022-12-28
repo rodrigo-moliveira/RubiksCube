@@ -5,7 +5,7 @@ import com.rubiks.simulator.processing.Move;
 import processing.core.PApplet;
 
 public class Move {
-    static simulator mysketch = null;
+    static mainRubiksSimulator mysketch = null;
     float angle = 0;
     int x = 0;
     int y = 0;
@@ -14,7 +14,7 @@ public class Move {
     boolean animating = false;
     boolean finished = false;
 
-    Move(int x, int y, int z, int dir,simulator sketch) {
+    Move(int x, int y, int z, int dir,mainRubiksSimulator sketch) {
         if (mysketch == null)
             mysketch = sketch;
         this.x = x;

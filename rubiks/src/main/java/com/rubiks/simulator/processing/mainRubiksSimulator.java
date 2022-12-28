@@ -1,21 +1,20 @@
 package com.rubiks.simulator.processing;
 
 
-import com.rubiks.simulator.cube.Cube;
-import com.rubiks.simulator.Thisletwaite.ThisletwaiteSolver;
-
 import peasy.PeasyCam;
 import processing.core.PApplet;
 import processing.core.PMatrix2D;
 
 
-import com.rubiks.utils.Exceptions.DatabaseGenerationError;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.rubiks.simulator.Thisletwaite.ThisletwaiteSolver;
+import com.rubiks.simulator.cube.Cube;
+import com.rubiks.utils.Exceptions.DatabaseGenerationError;
 
-public class simulator extends PApplet {
+
+public class mainRubiksSimulator extends PApplet {
     //Solver and Internal Representation Variables
     protected Cube internalState = new Cube();
     protected ThisletwaiteSolver solver;

@@ -4,11 +4,11 @@ import processing.core.PApplet;
 import processing.core.PVector;
 
 public class Face {
-    static simulator mysketch=null;
+    static mainRubiksSimulator mysketch=null;
     PVector normal;
     int c;
 
-    Face(PVector normal, int c,simulator sketch) {
+    Face(PVector normal, int c,mainRubiksSimulator sketch) {
         if (mysketch == null)
             mysketch = sketch;
         this.normal = normal;

@@ -6,11 +6,11 @@ import processing.core.PMatrix3D;
 import java.util.HashMap;
 
 public class UtilsSimulator {
-    simulator mysketch;
+    mainRubiksSimulator mysketch;
 
     HashMap<Character, Integer> color_dict;
 
-    public UtilsSimulator(simulator sketch){
+    public UtilsSimulator(mainRubiksSimulator sketch){
         mysketch = sketch;
         color_dict= new HashMap<>();{{
             color_dict.put('B', mysketch.color(255,255,0));color_dict.put('D',mysketch.color(0,255,0));

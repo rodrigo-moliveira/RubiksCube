@@ -4,7 +4,7 @@ import processing.core.PMatrix3D;
 import processing.core.PVector;
 
 public class Cubie {
-    static simulator mysketch = null;
+    static mainRubiksSimulator mysketch = null;
     PMatrix3D matrix;
     int x = 0;
     int y = 0;
@@ -12,7 +12,7 @@ public class Cubie {
     int c;
     Face[] faces = new Face[6];
 
-    Cubie(PMatrix3D m, int x, int y, int z,simulator sketch) {
+    Cubie(PMatrix3D m, int x, int y, int z,mainRubiksSimulator sketch) {
         if (mysketch == null)
             mysketch = sketch;
 

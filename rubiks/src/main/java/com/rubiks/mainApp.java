@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import com.rubiks.simulator.processing.simulator;
+import com.rubiks.simulator.processing.mainRubiksSimulator;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +19,7 @@ public class mainApp extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
-    private simulator sim;
+    private mainRubiksSimulator sim;
 
     @Override
     public void start(Stage primaryStage) {
@@ -31,7 +31,7 @@ public class mainApp extends Application {
         // initMainMenuLayout()
         
         // launch Simulator PApplet
-        sim = new simulator();
+        sim = new mainRubiksSimulator();
         sim.run();
     }
     
