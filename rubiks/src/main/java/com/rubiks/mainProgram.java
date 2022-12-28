@@ -1,6 +1,6 @@
 package com.rubiks;
 
-import com.rubiks.simulator.simulator;
+import com.rubiks.simulator.processing.simulator;
 
 
 public class mainProgram {	

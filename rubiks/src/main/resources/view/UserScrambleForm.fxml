@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="205.0" prefWidth="636.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="311.0" prefWidth="636.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="18.0" prefWidth="627.0" spacing="20.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Insert initial state using Singmaster Notation:" wrappingWidth="295.9658203125" />
+                  <TextField prefHeight="25.0" prefWidth="293.0" promptText="ex.: UUXXX" />
+               </children>
+            </HBox>
+            <Button alignment="TOP_LEFT" contentDisplay="CENTER" mnemonicParsing="false" text="Help: See Singmaster Notation Map" />
+            <Button mnemonicParsing="false" text="Random Scramble" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

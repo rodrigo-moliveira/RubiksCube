@@ -28,10 +28,10 @@
         <id>processing-for-maven</id>
         <url>https://processing-for-maven.netlify.app</url>
     </repository>
-	<repository>
+	<!--<repository>
 		<id>clojars.org</id>
   		<url>https://clojars.org/repo</url>
-	</repository>
+	</repository>-->
   </repositories>
 
   <dependencies>
@@ -90,25 +90,25 @@
 			</plugin>
 			
 			<!-- Plugin to run javafx app -->
-			<!--<plugin>
+			<plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>${javafx.maven.plugin.version}</version>
                 <configuration>
-                    <mainClass>com.rubiks.mainProgram</mainClass>
+                    <mainClass>com.rubiks.mainApp</mainClass>
                 </configuration>
-            </plugin>-->
+            </plugin>
 			
 			
 			<!-- Plugin to run main App -->
-            <plugin>
+            <!--<plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
                 <configuration>
                     <mainClass>com.rubiks.mainProgram</mainClass>
                 </configuration>
-            </plugin>
+            </plugin>-->
 
 		</plugins>
 	</pluginManagement>
