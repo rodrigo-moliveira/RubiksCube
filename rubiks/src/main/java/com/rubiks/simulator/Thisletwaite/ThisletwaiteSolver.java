@@ -2,6 +2,7 @@ package com.rubiks.simulator.Thisletwaite;
 
 import com.rubiks.simulator.cube.Cube;
 import com.rubiks.utils.Exceptions.DatabaseGenerationError;
+import com.rubiks.utils.Exceptions.RubiksSolutionException;
 
 
 public class ThisletwaiteSolver {
@@ -12,12 +13,15 @@ public class ThisletwaiteSolver {
 
         db = new ThisletwaiteDB();
     }
-    public String solve(Cube c) {
+    
+    public String solve(Cube c) throws RubiksSolutionException {
         StringBuilder totalSolution = new StringBuilder();
 
-        for (int phase = 1; phase <= 4; phase++) {
+        for (int phase = 1; phase <= 4; phase++) 
+        {
             String solution = db.getPhaseSolution(phase, c);
-            if (!solution.contains("E")) {
+            if (!solution.contains("E")) 
+            {
                 c.Move(solution);
                 totalSolution.append(solution);
             }

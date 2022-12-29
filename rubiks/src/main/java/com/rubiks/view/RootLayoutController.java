@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.Optional;
 
 import com.rubiks.MainApp;
-import com.rubiks.view.UserScrambleController;
+import com.rubiks.utils.Exceptions.InvalidMoveString;
+import com.rubiks.utils.Exceptions.RubiksSolutionException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,6 +50,7 @@ public class RootLayoutController {
             // Give the controller access to the main app
             UserScrambleController controller = fxmlLoader.getController();
             controller.setMainApp(this.mainApp);
+            controller.setStage(stage);
             
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Set Cube Initial State Form");
@@ -62,7 +64,26 @@ public class RootLayoutController {
 	@FXML
     private void clickSolve(ActionEvent event) {
         event.consume();
-        this.mainApp.getRubikSimulator().Solve();
+        
+        try 
+        {	
+        	String solution = this.mainApp.getRubikSimulator().Solve();
+
+			if(solution != null)
+			{
+				ControllerUtils.informationDialogue("Solving Cube", "Solution found", "Applying solution: " + solution);
+			}
+			else 
+			{
+				ControllerUtils.informationDialogue("Solving Cube", null, 
+						"Cube is already solved.");
+			}
+		} catch (InvalidMoveString | RubiksSolutionException e) 
+        {
+			ControllerUtils.errorDialogue("Solving Cube", "The following error occurred while attempting to find a solution:", 
+					e.getMessage());
+		}
+        
     }
 	
 	@FXML
@@ -70,22 +91,29 @@ public class RootLayoutController {
         event.consume();
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Input Move");
-        dialog.setHeaderText("Insert the move sequence\nola");
+        dialog.setHeaderText("Insert the move sequence (separated by white spaces or commas)\n"
+        		+ "Valid Moves: R1 R2 R3 L1 L2 L3 F1 F2 F3"
+        		+ " B1 B2 B3 U1 U2 U3 D1 D2 D3");
         dialog.setContentText("Moves:");
         
         Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()){
+        
+        if (result.isPresent())
+        {
         	String moves = result.get();
-            System.out.println("Moves: " + moves);
+        	moves = moves.replaceAll("\\s+","");
+        	moves = moves.replaceAll(",","");
+
+        	try 
+        	{
+				this.mainApp.getRubikSimulator().ApplyMove(moves);
+			} catch (InvalidMoveString e) 
+        	{
+				ControllerUtils.errorDialogue("Invalid Move Sequence Error", 
+						"Input move sequence: " + result.get(), e.getMessage());
+			}
         }
     }
-	
-	private void setButtonsEnabled(boolean flag)
-	{
-		buttonScramble.setDisable(!flag);
-		buttonMove.setDisable(!flag);
-		buttonSolve.setDisable(!flag);
-	}
 	
 	
 	/**

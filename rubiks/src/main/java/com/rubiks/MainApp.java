@@ -31,6 +31,8 @@ public class MainApp extends Application {
         
         // initMainMenuLayout()
         
+        // TODO: find a way to embed the PApplet in JAVAFX root
+        
         // launch Simulator PApplet
         rubiksSimulator = new mainRubiksSimulator();
         rubiksSimulator.run();

@@ -3,6 +3,7 @@ package com.rubiks.simulator.Thisletwaite;
 import com.rubiks.simulator.cube.Cube;
 import com.rubiks.simulator.Search.ThisletwaiteNode;
 import com.rubiks.utils.Exceptions.DatabaseFormatError;
+import com.rubiks.utils.Exceptions.RubiksSolutionException;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -347,18 +348,26 @@ public class ThisletwaiteDB {
         return phaseHashList.get(phase-1);
     }
 
-    public String getPhaseSolution(int phase, Cube c){
+    public String getPhaseSolution(int phase, Cube c) throws RubiksSolutionException{
         String solution = "";
         long id = -1;
 
         //get phaseID function
         Method idFunction = null;
-        try {
+        try 
+        {
             idFunction = this.getClass().getMethod("idPhase" + (phase), Cube.class);
             id = (long) idFunction.invoke(this, c); // pass arg
             solution = getPhaseDB(phase).get(id);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            
+            if (solution == null)
+            	throw new RubiksSolutionException("No solution found in phase " + phase + 
+            			" for cube " + c.toSingMasterNotation() + "\nInternal database phase ID: " + id);
+            
+        } catch (NullPointerException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
+            throw new RubiksSolutionException("No solution found in phase " + phase + 
+        			"for cube " + c.toSingMasterNotation());
         }
 
         return solution;

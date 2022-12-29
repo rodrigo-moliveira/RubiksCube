@@ -31,6 +31,8 @@ public class UserScrambleController {
 	
 	// Reference to the main application.
     private MainApp mainApp;
+    
+    private Stage thisStage;
 	
     @FXML
     private void initialize() {
@@ -42,7 +44,9 @@ public class UserScrambleController {
     private void applyUserScramble(ActionEvent event) {
         event.consume();
         String scramble = textFieldScramble.getText();
+        // TODO: parei aqui. continuar a fazer o handle da excepcao de erro
         ControllerUtils.informationDialogue("Information Dialog", null, "User Scramble: " + scramble);
+//        this.mainApp.getRubikSimulator().from;
     }
     
     @FXML
@@ -66,6 +70,8 @@ public class UserScrambleController {
         event.consume();
         this.mainApp.getRubikSimulator().randomScramble();
         ControllerUtils.informationDialogue("Information Dialog", null, "Random scramble applied");
+        
+        thisStage.close();
     }
     
     @FXML
@@ -104,6 +110,11 @@ public class UserScrambleController {
     public void setMainApp(MainApp mainApp) 
     {
         this.mainApp = mainApp;
+    }
+    
+    public void setStage(Stage thisStage) 
+    {
+        this.thisStage = thisStage;
     }
     
 }

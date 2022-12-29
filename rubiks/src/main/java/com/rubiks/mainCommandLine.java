@@ -3,6 +3,7 @@ package com.rubiks;
 import com.rubiks.simulator.cube.Cube;
 import com.rubiks.simulator.Thisletwaite.ThisletwaiteSolver;
 import com.rubiks.utils.Exceptions.DatabaseGenerationError;
+import com.rubiks.utils.Exceptions.RubiksSolutionException;
 import com.rubiks.utils.Exceptions.SingmasterError;
 
 public class mainCommandLine {
@@ -42,9 +43,16 @@ public class mainCommandLine {
 
             //Solve cube
             assert cube != null;
-            String solution = solver.solve(cube);
-            System.out.println("\n\n--------------\nSolution is:\n" + solution);
-            System.out.println("Solution successful?: "+ cube.isSolved());
+            String solution;
+			try {
+				solution = solver.solve(cube);
+				System.out.println("\n\n--------------\nSolution is:\n" + solution);
+	            System.out.println("Solution successful?: "+ cube.isSolved());
+			} catch (RubiksSolutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
 //            System.out.println(cube.toString());
         }
     }

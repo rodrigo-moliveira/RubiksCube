@@ -2,6 +2,7 @@ package com.rubiks.view;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 
 public class ControllerUtils {
 	public static void informationDialogue(String title, String header, String content)
@@ -10,8 +11,11 @@ public class ControllerUtils {
 		alert.setTitle(title);
 		alert.setHeaderText(header);
 		alert.setContentText(content);
+		
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.setAlwaysOnTop(true);
 
-		alert.showAndWait();
+		stage.showAndWait();
 		
 	}
 	
@@ -21,8 +25,11 @@ public class ControllerUtils {
 		alert.setTitle(title);
 		alert.setHeaderText(header);
 		alert.setContentText(content);
+		
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.setAlwaysOnTop(true);
 
-		alert.showAndWait();
+		stage.showAndWait();
 		
 	}
 }

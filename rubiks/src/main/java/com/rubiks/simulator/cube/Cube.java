@@ -1,5 +1,6 @@
 package com.rubiks.simulator.cube;
 
+import com.rubiks.utils.Exceptions.InvalidMoveString;
 import com.rubiks.utils.Exceptions.SingmasterError;
 import com.rubiks.utils.HashMapInvert;
 import com.rubiks.utils.RotateArrays;
@@ -489,24 +490,33 @@ public class Cube implements Cloneable{
         return true;
     }
 
-    public static boolean checkMoveSequence(String sequence){
+    public static void checkMoveSequence(String sequence) throws InvalidMoveString{
         int len = sequence.length();
-        if (len % 2 != 0 || len == 0)
-            return false;
-
+        if (len % 2 != 0)
+        {
+        	throw new InvalidMoveString("Illegal Move: each individual move has 2 characters, "
+        			+ "first is a letter (U, F, R, B, L or D) and second is integer (1, 2 or 3).");
+        }
+        if (len == 0)
+        {
+        	throw new InvalidMoveString("Illegal Move: input move sequence is empty.");
+        }
+            
         for (int i = 0; i < len; i++){
             char ch = sequence.charAt(i);
             if (i % 2 == 0){
                 //even: must be the face to move ('U','R','L','D','B' or 'F')
                 if (ch != 'U' && ch != 'D' && ch != 'F' && ch != 'B' && ch != 'R' && ch != 'L')
-                    return false;
+                	throw new InvalidMoveString("Illegal Move: input letter (" + ch + ") is illegal. "
+                			+ "Valid ones are U, F, R, B, L or D");
             }else{
                 //odd: must be '1', '2' or '3'
                 if (ch != '1' && ch != '2' && ch != '3')
-                    return false;
+                	throw new InvalidMoveString("Illegal Move: input integer (" + ch + ") is illegal. "
+                			+ "Valid ones are 1, 2 or 3");
             }
         }
-        return true;
+        return;
     }
 
 

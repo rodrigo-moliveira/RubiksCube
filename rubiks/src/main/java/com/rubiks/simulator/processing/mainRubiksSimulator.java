@@ -12,6 +12,9 @@ import java.util.HashMap;
 import com.rubiks.simulator.Thisletwaite.ThisletwaiteSolver;
 import com.rubiks.simulator.cube.Cube;
 import com.rubiks.utils.Exceptions.DatabaseGenerationError;
+import com.rubiks.utils.Exceptions.InvalidMoveString;
+import com.rubiks.utils.Exceptions.RubiksSolutionException;
+import com.rubiks.utils.Exceptions.SingmasterError;
 
 
 public class mainRubiksSimulator extends PApplet {
@@ -127,26 +130,16 @@ public class mainRubiksSimulator extends PApplet {
                 mouseY >= y && mouseY <= y + height;
     }
 
-
-
-
     public void randomScramble(){
         internalState = new Cube().randomize();
         String str = internalState.toSingMasterNotation();
         myUtils.UpdateSingmasterState(cube,str);
     }
 
-    public void singmasterScramble(){
-//        String singmaster = (String) form.getByLabel("Insert initial state using Singmaster Notation:").getValue();
-//        try {
-//            internalState = new Cube().fromSingMasterNotation(singmaster);
-//            myUtils.UpdateSingmasterState(cube,internalState.toSingMasterNotation());
-//        } catch (SingmasterError singmasterError) {
-//            booster.showErrorDialog(singmasterError.toString() + "\n" +
-//                    "Please see documentation for error codes","ERROR");
-////            singmasterError.printStackTrace();
-//        }
-//        form.close();
+    public void singmasterScramble(String singmaster) throws SingmasterError{
+
+            internalState = new Cube().fromSingMasterNotation(singmaster);
+            myUtils.UpdateSingmasterState(cube,internalState.toSingMasterNotation());
     }
 
     public void launchSingmasterSketch(){
@@ -160,54 +153,27 @@ public class mainRubiksSimulator extends PApplet {
         }
     }
 
-
-    public void mousePressed() {
-
-//        if (button1over) {
-//        	try {
-//	        	InitialStateForm form = new InitialStateForm();
-//	        	form.launchForm();
-//        	} catch(Exception e)
-//        	{
-//        		e.printStackTrace();
-//        	}
-        	
-//        } else if (button2over) {
-//            String InputSequence = booster.showTextInputDialog("Insert move sequence " +
-//                    "\npossible moves:" +
-//                    "\nR1,R2,R3,L1,L2,L3,F1,F2,F3,\n" +
-//                    "B1,B2,B3,U1,U2,U3,D1,D2,D3");
-//            ApplyMove(InputSequence);
-
-
-//        }else if (button3over) {
-//            if (internalState.isSolved())
-//                booster.showInfoDialog("Cube is already solved. No solution was processed.");
-//            else {
-//                String solution = solver.solve(internalState.clone());
-//                ApplyMove(solution);
-//            }
-//        }
-
-    }
-
-    public void Solve()
+    public String Solve() throws RubiksSolutionException, InvalidMoveString
     {
-    	if (internalState.isSolved())
-          System.out.println("Cube is already solved. No solution was processed.");
-      else {
-          String solution = solver.solve(internalState.clone());
-          ApplyMove(solution);
-      }
+    	String solution = null;
+    	
+    	if (!internalState.isSolved())
+    	{
+    		solution = solver.solve(internalState.clone());
+    	
+    		if (solution == null || solution.isBlank())
+    			return null; // no solution available
+    		ApplyMove(solution);
+    	}
+    	
+    	return solution;
     }
     
 
-    public void ApplyMove(String moves){
+    public void ApplyMove(String moves) throws InvalidMoveString{
         sequence.clear();
-        if(!Cube.checkMoveSequence(moves)) {
-//            booster.showErrorDialog("Move sequence is not in correct form.", "ERROR");
-            return;
-        }
+        
+        Cube.checkMoveSequence(moves); // throws InvalidMoveString in case of invalid notation
 
         internalState.Move(moves);
         int i = 0;
