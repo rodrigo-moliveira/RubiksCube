@@ -38,13 +38,11 @@ public class mainRubiksSimulator extends PApplet {
     PeasyCam cam;
     float speed = 0.1f;//0.05f;
     //Form form;
-    int button1X, button2X, button3X, buttonsY;
     int rectSizeX = 120;     // Diameter of rect
     int rectSizeY = 80;     // Diameter of rect
     int rectColor, baseColor;
     int rectHighlight;
     int currentColor;
-    boolean button1over = false,button2over = false, button3over = false;
     SingmasterSketch singmastersketch;
 
     //setting up all moves
@@ -76,8 +74,6 @@ public class mainRubiksSimulator extends PApplet {
         rectHighlight = color(31,61,68);
         baseColor = color(102);
         currentColor = baseColor;
-        button1X = width / 10; button2X = button1X + 40 + rectSizeX ; button3X = button2X + 40 + rectSizeX;
-        buttonsY =  height/10;
         ellipseMode(CENTER);
         currentMove = allMoves[0];
 
@@ -89,46 +85,11 @@ public class mainRubiksSimulator extends PApplet {
 
 
     public void draw() {
-        update();
 
         background(40);
         cam.beginHUD();
         fill(255);
         textSize(20);
-
-
-        //button 1
-        if (button1over) {
-            fill(rectHighlight);
-        } else {
-            fill(rectColor);
-        }
-        rect(button1X, buttonsY, rectSizeX, rectSizeY);
-        fill(color(255,255,255));
-        text("Scramble",button1X+10,buttonsY+45);
-
-
-        //button 2
-        if (button2over) {
-            fill(rectHighlight);
-        } else {
-            fill(rectColor);
-        }
-        rect(button2X, buttonsY, rectSizeX, rectSizeY);
-        fill(color(255,255,255));
-        text("Move",button2X+30,buttonsY+45);
-
-
-        //button 3
-        if (button3over) {
-            fill(rectHighlight);
-        } else {
-            fill(rectColor);
-        }
-        rect(button3X, buttonsY, rectSizeX, rectSizeY);
-        fill(color(255,255,255));
-        text("Solve",button3X+30,buttonsY+45);
-
 
         cam.endHUD();
         rotateX(-0.5f);
@@ -161,25 +122,6 @@ public class mainRubiksSimulator extends PApplet {
 
     }
 
-    void update() {
-        if ( overRect(button1X, buttonsY, rectSizeX, rectSizeY) ) {
-            button1over = true;
-            button2over = false; button3over = false;
-
-        } else if( overRect(button2X, buttonsY, rectSizeX, rectSizeY) ) {
-            button2over = true;
-            button1over = false; button3over = false;
-        }
-        else if( overRect(button3X, buttonsY, rectSizeX, rectSizeY) ) {
-            button3over = true;
-            button1over = false; button2over = false;
-        }
-        else{
-            button1over = false; button2over = false; button3over = false;
-        }
-    }
-
-
     public boolean overRect(int x, int y, int width, int height)  {
         return mouseX >= x && mouseX <= x + width &&
                 mouseY >= y && mouseY <= y + height;
@@ -192,8 +134,6 @@ public class mainRubiksSimulator extends PApplet {
         internalState = new Cube().randomize();
         String str = internalState.toSingMasterNotation();
         myUtils.UpdateSingmasterState(cube,str);
-        //form.close();
-
     }
 
     public void singmasterScramble(){
@@ -223,7 +163,7 @@ public class mainRubiksSimulator extends PApplet {
 
     public void mousePressed() {
 
-        if (button1over) {
+//        if (button1over) {
 //        	try {
 //	        	InitialStateForm form = new InitialStateForm();
 //	        	form.launchForm();
@@ -232,7 +172,7 @@ public class mainRubiksSimulator extends PApplet {
 //        		e.printStackTrace();
 //        	}
         	
-        } else if (button2over) {
+//        } else if (button2over) {
 //            String InputSequence = booster.showTextInputDialog("Insert move sequence " +
 //                    "\npossible moves:" +
 //                    "\nR1,R2,R3,L1,L2,L3,F1,F2,F3,\n" +
@@ -240,18 +180,27 @@ public class mainRubiksSimulator extends PApplet {
 //            ApplyMove(InputSequence);
 
 
-        }else if (button3over) {
+//        }else if (button3over) {
 //            if (internalState.isSolved())
 //                booster.showInfoDialog("Cube is already solved. No solution was processed.");
 //            else {
 //                String solution = solver.solve(internalState.clone());
 //                ApplyMove(solution);
 //            }
-        }
+//        }
 
     }
 
-
+    public void Solve()
+    {
+    	if (internalState.isSolved())
+          System.out.println("Cube is already solved. No solution was processed.");
+      else {
+          String solution = solver.solve(internalState.clone());
+          ApplyMove(solution);
+      }
+    }
+    
 
     public void ApplyMove(String moves){
         sequence.clear();
