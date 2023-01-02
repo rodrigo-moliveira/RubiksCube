@@ -3,6 +3,7 @@ package com.rubiks.view;
 import java.io.InputStream;
 
 import com.rubiks.MainApp;
+import com.rubiks.utils.Exceptions.SingmasterError;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,9 +45,19 @@ public class UserScrambleController {
     private void applyUserScramble(ActionEvent event) {
         event.consume();
         String scramble = textFieldScramble.getText();
-        // TODO: parei aqui. continuar a fazer o handle da excepcao de erro
-        ControllerUtils.informationDialogue("Information Dialog", null, "User Scramble: " + scramble);
-//        this.mainApp.getRubikSimulator().from;
+        
+        try {
+        	this.mainApp.getRubikSimulator().singmasterScramble(scramble);
+        	ControllerUtils.informationDialogue("Information Dialog", null, 
+        			"Successfully applied user scramble:\n " + scramble);
+        	thisStage.close();
+        }catch(SingmasterError e)
+        {
+        	ControllerUtils.errorDialogue("Error applying user scramble", 
+        			e.getMessage() + "\nUser Scramble: " + scramble, 
+        			this.mainApp.getRubikSimulator().getSingmasterErrorsDoc());
+        }
+        
     }
     
     @FXML

@@ -6,17 +6,18 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="213.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rubiks.view.UserScrambleController">
+<AnchorPane prefHeight="343.0" prefWidth="1064.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rubiks.view.UserScrambleController">
    <children>
-      <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="213.0" prefWidth="740.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="343.0" prefWidth="1064.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER" prefHeight="18.0" prefWidth="627.0" spacing="20.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Insert initial state using Singmaster Notation:" wrappingWidth="295.9658203125" />
-                  <TextField fx:id="textFieldScramble" onKeyReleased="#updateScrambleButtonState" prefHeight="25.0" prefWidth="293.0" promptText="ex.: UUXXX" />
+                  <TextField fx:id="textFieldScramble" onKeyReleased="#updateScrambleButtonState" prefHeight="31.0" prefWidth="525.0" promptText="ex.: UUUUUUUUUFFFFFFFFFRRRRRRRRRDDDDDDDDDBBBBBBBBBLLLLLLLLL" />
                   <Button fx:id="buttonScramble" mnemonicParsing="false" onAction="#applyUserScramble" text="Scramble" />
                </children>
             </HBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example (solved state): UUUUUUUUUFFFFFFFFFRRRRRRRRRDDDDDDDDDBBBBBBBBBLLLLLLLLL" wrappingWidth="661.9658203125" />
             <Button fx:id="buttonSeeNotation" alignment="TOP_LEFT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showSingmasterNotation" text="Help: See Singmaster Notation Map" />
             <Button fx:id="buttonRandomScramble" mnemonicParsing="false" onAction="#doRandomScramble" text="Random Scramble" />
          </children>
