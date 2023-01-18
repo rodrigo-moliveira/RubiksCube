@@ -1,7 +1,6 @@
 package com.rubiks;
 
 import javafx.application.Application;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -9,12 +8,9 @@ import java.io.IOException;
 import com.rubiks.simulator.processing.mainRubiksSimulator;
 import com.rubiks.view.RootLayoutController;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
@@ -30,9 +26,7 @@ public class MainApp extends Application {
         initRootLayout();
         
         // initMainMenuLayout()
-        
-        // TODO: find a way to embed the PApplet in JAVAFX root
-        
+                
         // launch Simulator PApplet
         rubiksSimulator = new mainRubiksSimulator();
         rubiksSimulator.run();

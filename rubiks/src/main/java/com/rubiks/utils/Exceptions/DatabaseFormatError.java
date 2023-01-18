@@ -1,7 +1,9 @@
 package com.rubiks.utils.Exceptions;
 
 public class DatabaseFormatError extends Exception{
-    public DatabaseFormatError(String message) {
+    private static final long serialVersionUID = 1L;
+
+	public DatabaseFormatError(String message) {
         super(message);
     }
 }

@@ -3,10 +3,12 @@ package com.rubiks.view;
 import java.io.InputStream;
 
 import com.rubiks.MainApp;
+import com.rubiks.utils.Exceptions.SingmasterError;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -44,9 +46,28 @@ public class UserScrambleController {
     private void applyUserScramble(ActionEvent event) {
         event.consume();
         String scramble = textFieldScramble.getText();
-        // TODO: parei aqui. continuar a fazer o handle da excepcao de erro
-        ControllerUtils.informationDialogue("Information Dialog", null, "User Scramble: " + scramble);
-//        this.mainApp.getRubikSimulator().from;
+
+        try 
+        {
+			this.mainApp.getRubikSimulator().singmasterScramble(scramble);
+			
+			// close the dialog.
+		    Node  source = (Node)  event.getSource(); 
+		    Stage stage  = (Stage) source.getScene().getWindow();
+		    stage.close();
+			
+		} catch (SingmasterError e) {
+			
+			ControllerUtils.errorDialogue("Error applying Singmaster Scramble", e.getMessage(), 
+					"Error description:\n"
+					+ "\t-1: There is not exactly one facelet of each colour or there exist unknown colors\n"
+					+ "\t-2: Not all 12 edges exist exactly once\n"
+					+ "\t-3: Flip error: One edge has to be flipped\n"
+					+ "\t-4: Not all 8 corners exist exactly once\n"
+					+ "\t-5: Twist error: One corner has to be twisted\n"
+					+ "\t-6: Parity error: Two corners or two edges have to be exchanged\n"
+					+ "\t-7 Wrong Notation: Singmaster notation is wrong (see SingmasterNotationMap.png)" );
+		}
     }
     
     @FXML
