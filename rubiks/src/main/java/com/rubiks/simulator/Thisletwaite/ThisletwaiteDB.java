@@ -8,7 +8,6 @@ import com.rubiks.utils.Exceptions.RubiksSolutionException;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -48,33 +47,76 @@ public class ThisletwaiteDB {
 
 
     public ThisletwaiteDB() {
-        System.out.println("Initializing Thisletwaite Database");
+        
+      //activating all moves
+      for (int i = 0; i < 18; i++)
+          allowable_moves[i] = 1;
 
-        for (int phase = 1; phase <= 4; phase++) {
-        	URL path = getClass().getResource(PATH + "phase" + phase + ".txt");
-            HashMap<Long, String> currentHash;
-            try {
-            	System.out.println("Reading phase " + phase + "...");
-                currentHash = new HashMap<Long, String>();
-
-                BufferedReader rd = new BufferedReader(new InputStreamReader(path.openStream()));
-                String line;
-
-                //process data & fill the hash table
-                while ((line = rd.readLine()) != null) {
-                    Line data = process_data(line);
-                    currentHash.put(data.getId(), data.getPath());
-                }
-                phaseHashList.add(currentHash);
-
+        for (int phase = 1; phase <= 4; phase++) 
+        {
+        	
+        	InputStream inputStream = getStreamForPhase(phase);
+        	
+        	if (inputStream == null)
+        	{
+        		buildDBs(phase);
+        		inputStream = getStreamForPhase(phase);
+        		
+        		if (inputStream == null)
+        		{
+        			System.out.println("CRITIAL ERROR: not able to generate database for phase " + phase);
+        			System.exit(-1);
+        		}
+        	}
+        	
+            try 
+            {
+            	readPhase(phase, inputStream);
             } catch (IOException | NullPointerException  | DatabaseFormatError e) {
-                e.printStackTrace();
+            	System.out.println("CRITIAL ERROR: not able to read database for phase " + phase);
+    			System.exit(-1);
             }
             
-            System.out.println("Successfully read phase " + phase);
+            nextPhase(phase);
         }
     }
+    
+    private InputStream getStreamForPhase(int phase)
+    {
+    	// try to get database from resource directory
+    	InputStream inputStream = getClass().getResourceAsStream(PATH + "phase" + phase + ".txt");
+    	
+    	// try to get database from target directory
+    	if (inputStream == null)
+    	{
+    		String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        	path += "/" + PATH + "/phase" + phase + ".txt";
 
+        	try 
+        	{
+        		inputStream = new FileInputStream(path);
+			} catch (FileNotFoundException e) {
+				inputStream = null;
+			}
+    	}
+    	return inputStream;
+    }
+    
+    private void readPhase(int phase, InputStream inputStream) throws IOException, DatabaseFormatError
+    {
+    	System.out.println("Reading phase " + phase + "...");
+    	HashMap<Long, String> currentHash = new HashMap<Long, String>();
+
+        BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream));
+        String line;
+
+        //process data & fill the hash table
+        while ((line = rd.readLine()) != null) {
+            Line data = process_data(line);
+            currentHash.put(data.getId(), data.getPath());
+        }
+        phaseHashList.add(currentHash);
+    }
 
     Line process_data(String line) throws DatabaseFormatError {
         Line new_line = new Line();
@@ -129,7 +171,7 @@ public class ThisletwaiteDB {
             id_goal = (long) idFunction.invoke(this, cube);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
-            id_goal = -1;
+            return;
         }
 
         //create open list of search and add node with solved state
@@ -146,20 +188,23 @@ public class ThisletwaiteDB {
             this.myWriter = new FileWriter(file);
             this.writeToFile(id_goal + ", E\n");
         } catch (IOException  e) {
-            System.out.println("An error occurred.");
             e.printStackTrace();
         }
 
         //Do breath first search of current phase
-        while (size != 0) {
+        while (size != 0) 
+        {
             searchNode = open_list.remove();
 
-            for (int move = 0; move < 6; move++) {
-                for (int amount = 0; amount < 3; amount++) {
+            for (int move = 0; move < 6; move++) 
+            {
+                for (int amount = 0; amount < 3; amount++) 
+                {
                     searchNode.getState().move(3 * move);
 
                     //check if move is allowed in this phase
-                    if (allowable_moves[3 * move + amount] == 1) {
+                    if (allowable_moves[3 * move + amount] == 1) 
+                    {
                         try {
                             assert idFunction != null;
                             id = (long) idFunction.invoke(this, searchNode.getState()); // pass arg
@@ -311,14 +356,13 @@ public class ThisletwaiteDB {
 
     private void createFile(int phase){
         try {
-            this.file = new File("rubiks/src/main/java/com/rubiks/db/Thisletwaite/phase" + phase + ".txt");
-            if (this.file.createNewFile()) {
-                System.out.println("File created: " + this.file.getName());
-            } else {
-                System.out.println("File already exists.");
-            }
+        	String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        	path += "/" + PATH + "/phase" + phase + ".txt";
+            this.file = new File(path);
+
+            this.file.createNewFile();
+            
         } catch (IOException e) {
-            System.out.println("An error occurred.");
             e.printStackTrace();
             this.file = null;
         }
@@ -330,7 +374,6 @@ public class ThisletwaiteDB {
         try {
             myWriter.write(msg);
         } catch (IOException e) {
-            System.out.println("An error occurred.");
             e.printStackTrace();
         }
     }

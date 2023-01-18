@@ -1,5 +1,6 @@
 package com.rubiks.simulator.processing;
 
+import processing.core.PConstants;
 import processing.core.PMatrix3D;
 import processing.core.PVector;
 
@@ -32,19 +33,19 @@ public class Cubie {
 
     public void turnFacesZ(int dir) {
         for (Face f : faces) {
-            f.turnZ(dir*mysketch.HALF_PI);
+            f.turnZ(dir*PConstants.HALF_PI);
         }
     }
 
     public void turnFacesY(int dir) {
         for (Face f : faces) {
-            f.turnY(dir*mysketch.HALF_PI);
+            f.turnY(dir*PConstants.HALF_PI);
         }
     }
 
     public void turnFacesX(int dir) {
         for (Face f : faces) {
-            f.turnX(dir*mysketch.HALF_PI);
+            f.turnX(dir*PConstants.HALF_PI);
         }
     }
 

@@ -8,6 +8,7 @@ import com.rubiks.utils.Exceptions.SingmasterError;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -45,7 +46,7 @@ public class UserScrambleController {
     private void applyUserScramble(ActionEvent event) {
         event.consume();
         String scramble = textFieldScramble.getText();
-        
+
         try {
         	this.mainApp.getRubikSimulator().singmasterScramble(scramble);
         	ControllerUtils.informationDialogue("Information Dialog", null, 

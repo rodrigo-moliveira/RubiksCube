@@ -1,6 +1,7 @@
 package com.rubiks.simulator.processing;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PVector;
 
 public class Face {
@@ -44,12 +45,12 @@ public class Face {
         mysketch.pushMatrix();
         mysketch.fill(c);
         mysketch.noStroke();
-        mysketch.rectMode(mysketch.CENTER);
+        mysketch.rectMode(PConstants.CENTER);
         mysketch.translate(0.5f*normal.x, 0.5f*normal.y, 0.5f*normal.z);
         if (PApplet.abs(normal.x) > 0) {
-            mysketch.rotateY(mysketch.HALF_PI);
+            mysketch.rotateY(PConstants.HALF_PI);
         } else if (PApplet.abs(normal.y) > 0) {
-            mysketch.rotateX(mysketch.HALF_PI);
+            mysketch.rotateX(PConstants.HALF_PI);
         }
         mysketch.square(0, 0, 1);
         mysketch.popMatrix();
