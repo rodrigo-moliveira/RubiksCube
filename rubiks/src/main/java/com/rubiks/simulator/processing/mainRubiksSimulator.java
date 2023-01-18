@@ -70,7 +70,6 @@ public class mainRubiksSimulator extends PApplet {
     }};
 
 
-
     public void setup() {
 
         rectColor = color(69,216,255);
@@ -138,7 +137,8 @@ public class mainRubiksSimulator extends PApplet {
 
     public void singmasterScramble(String singmaster) throws SingmasterError{
 
-            internalState = new Cube().fromSingMasterNotation(singmaster);
+            internalState = new Cube().fromSingMasterNotation(singmaster); // throws SingmasterError if scramble is illegal
+            
             myUtils.UpdateSingmasterState(cube,internalState.toSingMasterNotation());
     }
 
@@ -231,8 +231,14 @@ public class mainRubiksSimulator extends PApplet {
             }
         }
     }
+    
+    public String getSingmasterErrorsDoc()
+    {
+    	return myUtils.getSingmasterErrorsDoc();
+    }
+    
     public void settings() {
-        //System.setProperty("jogl.disable.openglcore", "false");
+        // System.setProperty("jogl.disable.openglcore", "false");
         size(600, 600, P3D); }
 
 

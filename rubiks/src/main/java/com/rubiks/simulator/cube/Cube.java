@@ -349,7 +349,7 @@ public class Cube implements Cloneable{
         */
 
         if (verifySingmasterNotation(singmaster) != 0)
-            throw new SingmasterError("Error -1 in Singmaster notation");
+            throw new SingmasterError("Error 1 in Singmaster notation");
 
 
         byte[][] singmaster_map_corners = {{1,3,1}, {3,3,1}, {7,3,1}, {9,3,1}, {7,7,9}, {9,7,9},
@@ -378,7 +378,7 @@ public class Cube implements Cloneable{
                 byte perm = corner_table.getKey(str.toString());
                 c[perm] = corner_val((byte)i,ori);
             }catch (NullPointerException e) {
-                throw new SingmasterError("Error -7 Wrong Singmaster Notation");
+                throw new SingmasterError("Error 7 in Singmaster Notation");
             }
         }
 
@@ -406,7 +406,7 @@ public class Cube implements Cloneable{
                 try {
                     perm = edge_table.getKey(str.toString());
                 }catch (NullPointerException f){
-                    throw new SingmasterError("Error -7 Wrong Singmaster Notation");
+                    throw new SingmasterError("Error 7 in Singmaster Notation");
                 }
             }
             e[perm] = edge_val((byte)i,ori);
@@ -417,8 +417,6 @@ public class Cube implements Cloneable{
             throw new SingmasterError("Error " + ret + " in Singmaster notation:");
         return this;
     }
-
-
 
 
     int verifySingmasterNotation(String singmaster){
@@ -458,9 +456,9 @@ public class Cube implements Cloneable{
             sum_ori += edge_ori(e[i]);
         }
         if (sum_perm != 66)
-            return -2;
+            return 2;
         if (sum_ori % 2 != 0)
-            return -3;
+            return 3;
 
         //Corner permutations and orientations
         sum_perm = 0; sum_ori = 0;
@@ -469,13 +467,13 @@ public class Cube implements Cloneable{
             sum_ori += corner_ori(c[i]);
         }
         if (sum_perm != 28)
-            return -4;
+            return 4;
         if (sum_ori % 3 != 0)
-            return -5;
+            return 5;
 
         //check parity
         if ((edgeParity() ^ cornerParity()))
-            return -6;
+            return 6;
         return 0;
     }
 

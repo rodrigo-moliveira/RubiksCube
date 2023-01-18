@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="472.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rubiks.view.MainLayoutController">
+   <children>
+      <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0" spacing="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Rubiks Cube App!" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="80.0">
+               <children>
+                  <Button fx:id="buttonScramble" mnemonicParsing="false" onAction="#clickScramble" text="Scramble" />
+                  <Button fx:id="buttonMove" mnemonicParsing="false" onAction="#clickMove" text="Move" />
+                  <Button fx:id="buttonSolve" mnemonicParsing="false" onAction="#clickSolve" text="Solve" />
+               </children>
+            </HBox>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets top="80.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

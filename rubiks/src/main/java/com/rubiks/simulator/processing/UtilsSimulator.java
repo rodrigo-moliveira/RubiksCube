@@ -114,5 +114,16 @@ public class UtilsSimulator {
         cube[26].faces[2].c = color_dict.get(DOWN_CHARS[2]);
 
     }
-
+    
+    public String getSingmasterErrorsDoc()
+    {
+    	String ret =  "Error codes:\n\t1: There is not exactly one facelet of each colour or there exist unknown colors\n"
+    			+ "\t2: Not all 12 edges exist exactly once\n"
+    			+ "\t3: Flip error: One edge has to be flipped\n"
+    			+ "\t4: Not all 8 corners exist exactly once\n"
+    			+ "\t5: Twist error: One corner has to be twisted\n"
+    			+ "\t6: Parity error: Two corners or two edges have to be exchanged\n"
+    			+ "\t7 Wrong Notation: Singmaster notation is wrong (see Help: See Singmaster Notation Map)\n";
+    	return ret;
+    }
 }

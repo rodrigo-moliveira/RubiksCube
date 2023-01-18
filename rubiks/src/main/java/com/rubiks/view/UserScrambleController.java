@@ -47,27 +47,18 @@ public class UserScrambleController {
         event.consume();
         String scramble = textFieldScramble.getText();
 
-        try 
+        try {
+        	this.mainApp.getRubikSimulator().singmasterScramble(scramble);
+        	ControllerUtils.informationDialogue("Information Dialog", null, 
+        			"Successfully applied user scramble:\n " + scramble);
+        	thisStage.close();
+        }catch(SingmasterError e)
         {
-			this.mainApp.getRubikSimulator().singmasterScramble(scramble);
-			
-			// close the dialog.
-		    Node  source = (Node)  event.getSource(); 
-		    Stage stage  = (Stage) source.getScene().getWindow();
-		    stage.close();
-			
-		} catch (SingmasterError e) {
-			
-			ControllerUtils.errorDialogue("Error applying Singmaster Scramble", e.getMessage(), 
-					"Error description:\n"
-					+ "\t-1: There is not exactly one facelet of each colour or there exist unknown colors\n"
-					+ "\t-2: Not all 12 edges exist exactly once\n"
-					+ "\t-3: Flip error: One edge has to be flipped\n"
-					+ "\t-4: Not all 8 corners exist exactly once\n"
-					+ "\t-5: Twist error: One corner has to be twisted\n"
-					+ "\t-6: Parity error: Two corners or two edges have to be exchanged\n"
-					+ "\t-7 Wrong Notation: Singmaster notation is wrong (see SingmasterNotationMap.png)" );
-		}
+        	ControllerUtils.errorDialogue("Error applying user scramble", 
+        			e.getMessage() + "\nUser Scramble: " + scramble, 
+        			this.mainApp.getRubikSimulator().getSingmasterErrorsDoc());
+        }
+        
     }
     
     @FXML

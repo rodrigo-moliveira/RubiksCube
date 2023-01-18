@@ -12,11 +12,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class RootLayoutController {
+public class MainLayoutController {
 	
 	@FXML
     private Button buttonScramble;
@@ -42,7 +43,7 @@ public class RootLayoutController {
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/view/InitialStateForm.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/view/UserScrambleForm.fxml"));
             
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
@@ -114,7 +115,6 @@ public class RootLayoutController {
 			}
         }
     }
-	
 	
 	/**
      * Is called by the main application to give a reference back to itself.
