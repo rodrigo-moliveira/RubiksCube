@@ -2,6 +2,7 @@ package com.rubiks.view;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 import com.rubiks.MainApp;
 import com.rubiks.utils.Exceptions.InvalidMoveString;
@@ -26,8 +27,11 @@ public class MainLayoutController {
     private Button buttonMove;
 	
 	@FXML
-    private Button buttonSolve;
+    private Button buttonReset;
 	
+	@FXML
+    private Button buttonSolve;
+		
 	// Reference to the main application.
     private MainApp mainApp;
 	
@@ -64,7 +68,7 @@ public class MainLayoutController {
 	
 	@FXML
     private void clickSolve(ActionEvent event) {
-        event.consume();
+		event.consume();
         
         try 
         {	
@@ -84,7 +88,6 @@ public class MainLayoutController {
 			ControllerUtils.errorDialogue("Solving Cube", "The following error occurred while attempting to find a solution:", 
 					e.getMessage());
 		}
-        
     }
 	
 	@FXML
@@ -115,6 +118,20 @@ public class MainLayoutController {
 			}
         }
     }
+	
+	@FXML
+    private void clickReset(ActionEvent event) {
+        event.consume();
+        this.mainApp.getRubikSimulator().resetSolved();
+	}
+	
+	public void updateAnimation(boolean animating)
+	{
+		buttonScramble.setDisable(animating);
+		buttonReset.setDisable(animating);
+		buttonMove.setDisable(animating);
+		buttonSolve.setDisable(animating);
+	}
 	
 	/**
      * Is called by the main application to give a reference back to itself.

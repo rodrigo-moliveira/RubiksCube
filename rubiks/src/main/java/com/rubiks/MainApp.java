@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import com.rubiks.simulator.processing.mainRubiksSimulator;
 import com.rubiks.view.MainLayoutController;
+import com.rubiks.view.MenuController;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,9 +17,11 @@ import javafx.scene.layout.BorderPane;
 
 public class MainApp extends Application {
 
-    private Stage primaryStage;
-    private BorderPane rootLayout;
-    private mainRubiksSimulator rubiksSimulator;
+    private Stage primaryStage = null;
+    private BorderPane rootLayout = null;
+    private mainRubiksSimulator rubiksSimulator = null;
+    private MenuController menuController = null;
+    private MainLayoutController layouController = null;
 
     @Override
     public void start(Stage primaryStage) {
@@ -31,13 +34,14 @@ public class MainApp extends Application {
         
         initMenuLayout();
         
-        // TODO: find a way to embed the PApplet in JAVAFX root
-        // TODO: handle exception: unable to find database 
         // TODO: add button re-reset to solved 
+        // TODO: add function to close application. Call it on critical points of code
+        // TODO: build, create readme...
         
         // launch Simulator PApplet
         rubiksSimulator = new mainRubiksSimulator();
         rubiksSimulator.run();
+        rubiksSimulator.setMainApp(this);
     }
 
 
@@ -71,8 +75,8 @@ public class MainApp extends Application {
             rootLayout.setCenter(mainControls);
             
             // Give the controller access to the main app
-            MainLayoutController controller = loader.getController();
-            controller.setMainApp(this);
+            layouController = loader.getController();
+            layouController.setMainApp(this);
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -91,8 +95,8 @@ public class MainApp extends Application {
             rootLayout.setTop(menuBar);
             
             // Give the controller access to the main app
-//            MainLayoutController controller = loader.getController();
-//            controller.setMainApp(this);
+            menuController = loader.getController();
+            menuController.setMainApp(this);
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,6 +115,18 @@ public class MainApp extends Application {
 	{
 		return rubiksSimulator;
 	}
+	
+	public void animationStarting()
+    {
+		// alert all modules that the simulator has started moving the cube
+		layouController.updateAnimation(true);
+    	
+    }
+    public void animationEnding()
+    {
+    	// alert all modules that the simulator has ended moving the cube
+    	layouController.updateAnimation(false);
+    }
 
     public static void main(String[] args) {
         launch(args);

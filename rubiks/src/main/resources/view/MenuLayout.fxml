@@ -3,44 +3,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-<MenuBar xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rubiks.view.MainMenuController">
+<MenuBar xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rubiks.view.MenuController">
    <menus>
-      <Menu mnemonicParsing="false" text="File">
-         <items>
-            <MenuItem mnemonicParsing="false" text="Close" />
-         </items>
-      </Menu>
-      <Menu mnemonicParsing="false" text="Database">
-         <items>
-            <Menu mnemonicParsing="false" text="Phase 1">
-               <items>
-                  <MenuItem id="menuPhase1Open" mnemonicParsing="false" onAction="#openPhase1" text="Open " />
-                  <MenuItem mnemonicParsing="false" text="Generate" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Phase 2">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Open" />
-                  <MenuItem mnemonicParsing="false" text="Generate" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Phase 3">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Open" />
-                  <MenuItem mnemonicParsing="false" text="Generate" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Phase 4">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Open" />
-                  <MenuItem mnemonicParsing="false" text="Generate" />
-               </items>
-            </Menu>
-         </items>
-      </Menu>
       <Menu mnemonicParsing="false" text="Help">
          <items>
-            <MenuItem mnemonicParsing="false" text="About" />
+            <MenuItem mnemonicParsing="false" onAction="#openAbout" text="About" />
          </items>
       </Menu>
    </menus>

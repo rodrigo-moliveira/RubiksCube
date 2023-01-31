@@ -9,6 +9,7 @@ import processing.core.PMatrix2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.rubiks.MainApp;
 import com.rubiks.simulator.Thisletwaite.ThisletwaiteSolver;
 import com.rubiks.simulator.cube.Cube;
 import com.rubiks.utils.Exceptions.DatabaseGenerationError;
@@ -47,6 +48,10 @@ public class mainRubiksSimulator extends PApplet {
     int rectHighlight;
     int currentColor;
     SingmasterSketch singmastersketch;
+    boolean animating = false;
+    
+    // Reference to the main application.
+    private MainApp mainApp;
 
     //setting up all moves
     Move[] allMoves = new Move[] {
@@ -82,6 +87,9 @@ public class mainRubiksSimulator extends PApplet {
         cam = new PeasyCam(this, 400);
         myUtils.UpdateSingmasterState(cube,internalState.toSingMasterNotation());
         
+        surface.setTitle("Cube Engine");
+        surface.setLocation(100, 100);
+        
     }
 
 
@@ -103,6 +111,11 @@ public class mainRubiksSimulator extends PApplet {
             if (sequence.size() > 0) {
                 currentMove = sequence.remove(0);
                 currentMove.start();
+            }
+            else if (animating)
+            {
+            	// alert main App that motion has ended.
+                animationEnding();
             }
         }
 
@@ -131,6 +144,12 @@ public class mainRubiksSimulator extends PApplet {
 
     public void randomScramble(){
         internalState = new Cube().randomize();
+        String str = internalState.toSingMasterNotation();
+        myUtils.UpdateSingmasterState(cube,str);
+    }
+    
+    public void resetSolved(){
+        internalState = new Cube();
         String str = internalState.toSingMasterNotation();
         myUtils.UpdateSingmasterState(cube,str);
     }
@@ -170,7 +189,9 @@ public class mainRubiksSimulator extends PApplet {
     }
     
 
-    public void ApplyMove(String moves) throws InvalidMoveString{
+    public void ApplyMove(String moves) throws InvalidMoveString
+    {
+    	animationStarting();
         sequence.clear();
         
         Cube.checkMoveSequence(moves); // throws InvalidMoveString in case of invalid notation
@@ -243,9 +264,29 @@ public class mainRubiksSimulator extends PApplet {
 
 
     public void run(){
-        String[] processingArgs = {"simulator"};
+        String[] processingArgs = {""};
         PApplet.runSketch(processingArgs, this);
 
-
+    }
+    
+    /**
+     * Is called by the main application to give a reference back to itself.
+     * 
+     * @param mainApp
+     */
+    public void setMainApp(MainApp mainApp) 
+    {
+        this.mainApp = mainApp;
+    }
+    
+    private void animationStarting()
+    {
+    	animating = true;
+    	mainApp.animationStarting();
+    }
+    private void animationEnding()
+    {
+    	animating = false;
+    	mainApp.animationEnding();
     }
 }
