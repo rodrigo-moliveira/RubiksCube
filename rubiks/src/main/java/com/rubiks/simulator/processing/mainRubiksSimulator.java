@@ -9,6 +9,8 @@ import processing.core.PMatrix2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JOptionPane;
+
 import com.rubiks.MainApp;
 import com.rubiks.simulator.Thisletwaite.ThisletwaiteSolver;
 import com.rubiks.simulator.cube.Cube;
@@ -260,14 +262,25 @@ public class mainRubiksSimulator extends PApplet {
     
     public void settings() {
         // System.setProperty("jogl.disable.openglcore", "false");
-        size(600, 600, P3D); }
-
+        size(600, 600, P3D); 
+        }
 
     public void run(){
         String[] processingArgs = {""};
         PApplet.runSketch(processingArgs, this);
 
     }
+    
+    public void reallyExit()
+    {
+    	super.exit();
+    }
+    
+    public void exit() 
+    {
+    	System.out.println("Calling exit");
+    	this.mainApp.closeProgram();
+	}
     
     /**
      * Is called by the main application to give a reference back to itself.

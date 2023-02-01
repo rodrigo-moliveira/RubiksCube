@@ -34,8 +34,6 @@ public class MainApp extends Application {
         
         initMenuLayout();
         
-        // TODO: add button re-reset to solved 
-        // TODO: add function to close application. Call it on critical points of code
         // TODO: build, create readme...
         
         // launch Simulator PApplet
@@ -127,7 +125,21 @@ public class MainApp extends Application {
     	// alert all modules that the simulator has ended moving the cube
     	layouController.updateAnimation(false);
     }
+    
+    @Override
+    public void stop()
+    {
+    	System.out.println("Calling stop");
+    	closeProgram();
+    }
+    
+    public void closeProgram(){
+    	System.out.println("Calling close program");
 
+    	// close simulator (PApplet)
+    	getRubikSimulator().reallyExit();
+    }
+    
     public static void main(String[] args) {
         launch(args);
     }
