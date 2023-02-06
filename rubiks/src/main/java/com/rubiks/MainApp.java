@@ -21,7 +21,7 @@ public class MainApp extends Application {
     private BorderPane rootLayout = null;
     private mainRubiksSimulator rubiksSimulator = null;
     private MenuController menuController = null;
-    private MainLayoutController layouController = null;
+    private MainLayoutController mainControlsController = null;
 
     @Override
     public void start(Stage primaryStage) {
@@ -32,10 +32,8 @@ public class MainApp extends Application {
         
         initMainControlsLayout();
         
-        initMenuLayout();
-        
-        // TODO: build, create readme...
-        
+        initMenuBar();
+                
         // launch Simulator PApplet
         rubiksSimulator = new mainRubiksSimulator();
         rubiksSimulator.run();
@@ -43,9 +41,7 @@ public class MainApp extends Application {
     }
 
 
-    /**
-     * Initializes the root layout.
-     */
+    //Initializes the root layout.
     public void initRootLayout() {
         try {
             // Load root layout from fxml file.
@@ -62,34 +58,31 @@ public class MainApp extends Application {
         }
     }
     
+    // Initializes the Main Control Layout
     public void initMainControlsLayout() {
         try {
-            // Load root layout from fxml file.
         	FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("/view/MainControlsLayout.fxml"));
             AnchorPane mainControls = (AnchorPane) loader.load();
             
-            // Show the scene containing the root layout.
             rootLayout.setCenter(mainControls);
             
             // Give the controller access to the main app
-            layouController = loader.getController();
-            layouController.setMainApp(this);
+            mainControlsController = loader.getController();
+            mainControlsController.setMainApp(this);
             
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
-    public void initMenuLayout() {
+    // Initializes the Menu Bar
+    public void initMenuBar() {
         try {
-            // Load root layout from fxml file.
         	FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("/view/MenuLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/MenuBarLayout.fxml"));
             MenuBar menuBar = (MenuBar) loader.load();
             
-            // Show the scene containing the root layout.
             rootLayout.setTop(menuBar);
             
             // Give the controller access to the main app
@@ -101,41 +94,38 @@ public class MainApp extends Application {
         }
     }
     
-	/**
-	 * Returns the main stage.
-	 * @return
-	 */
+	// Returns the main stage.
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
 	
+	// Returns the rubiks cube simulator PApplet
 	public mainRubiksSimulator getRubikSimulator()
 	{
 		return rubiksSimulator;
 	}
 	
+	// alert all application that the simulator has started moving the cube
 	public void animationStarting()
     {
-		// alert all modules that the simulator has started moving the cube
-		layouController.updateAnimation(true);
-    	
+		// we need to activate / deactivate some buttons when the simulator is in animation mode
+		mainControlsController.updateAnimation(true);	
     }
+	
+	// alert all application that the simulator has ended moving the cube
     public void animationEnding()
     {
-    	// alert all modules that the simulator has ended moving the cube
-    	layouController.updateAnimation(false);
+    	// we need to activate / deactivate some buttons when the simulator is in animation mode
+    	mainControlsController.updateAnimation(false);
     }
     
     @Override
     public void stop()
     {
-    	System.out.println("Calling stop");
     	closeProgram();
     }
     
     public void closeProgram(){
-    	System.out.println("Calling close program");
-
     	// close simulator (PApplet)
     	getRubikSimulator().reallyExit();
     }

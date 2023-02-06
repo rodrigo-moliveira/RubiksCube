@@ -5,19 +5,18 @@ import processing.core.PConstants;
 import processing.core.PVector;
 
 public class Face {
-    static mainRubiksSimulator mysketch=null;
-    PVector normal;
-    int c;
+    private static mainRubiksSimulator mysketch=null;
+    private PVector normal;
+    protected int c;
 
-    Face(PVector normal, int c,mainRubiksSimulator sketch) {
+    protected Face(PVector normal, int c,mainRubiksSimulator sketch) {
         if (mysketch == null)
             mysketch = sketch;
         this.normal = normal;
         this.c = c;
     }
 
-
-    public void turnZ(float angle) {
+    protected void turnZ(float angle) {
         PVector v2 = new PVector();
         v2.x = PApplet.round(normal.x * PApplet.cos(angle) - normal.y * PApplet.sin(angle));
         v2.y = PApplet.round(normal.x * PApplet.sin(angle) + normal.y * PApplet.cos(angle));
@@ -25,7 +24,7 @@ public class Face {
         normal = v2;
     }
 
-    public void turnY(float angle) {
+    protected void turnY(float angle) {
         PVector v2 = new PVector();
         v2.x = PApplet.round(normal.x * PApplet.cos(angle) - normal.z * PApplet.sin(angle));
         v2.z = PApplet.round(normal.x * PApplet.sin(angle) + normal.z * PApplet.cos(angle));
@@ -33,7 +32,7 @@ public class Face {
         normal = v2;
     }
 
-    public void turnX(float angle) {
+    protected void turnX(float angle) {
         PVector v2 = new PVector();
         v2.y = PApplet.round(normal.y * PApplet.cos(angle) - normal.z * PApplet.sin(angle));
         v2.z = PApplet.round(normal.y * PApplet.sin(angle) + normal.z * PApplet.cos(angle));
@@ -41,7 +40,7 @@ public class Face {
         normal = v2;
     }
 
-    public void show() {
+    protected void show() {
         mysketch.pushMatrix();
         mysketch.fill(c);
         mysketch.noStroke();

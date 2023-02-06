@@ -15,7 +15,7 @@ public class mainCommandLine {
         else{
             Cube cube = null;
             ThisletwaiteSolver solver;
-
+                        
             //Read Cube state
             try {
                 cube = new Cube().fromSingMasterNotation(args[0]);
@@ -49,11 +49,8 @@ public class mainCommandLine {
 				System.out.println("\n\n--------------\nSolution is:\n" + solution);
 	            System.out.println("Solution successful?: "+ cube.isSolved());
 			} catch (RubiksSolutionException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-            
-//            System.out.println(cube.toString());
+			}            
         }
     }
 }

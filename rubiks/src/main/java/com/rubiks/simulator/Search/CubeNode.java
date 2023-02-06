@@ -1,6 +1,6 @@
 package com.rubiks.simulator.Search;
 
-
+// TODO: começar revisao aqui
 
 public class CubeNode<S,A,L> extends Node<S,A>{
     private final L phaseID;

@@ -4,16 +4,20 @@ import processing.core.PConstants;
 import processing.core.PMatrix3D;
 import processing.core.PVector;
 
+// class to store one of the Cubies
 public class Cubie {
-    static mainRubiksSimulator mysketch = null;
-    PMatrix3D matrix;
-    int x = 0;
-    int y = 0;
-    int z = 0;
-    int c;
-    Face[] faces = new Face[6];
+	
+    private static mainRubiksSimulator mysketch = null;
+    private PMatrix3D matrix;
+    
+    // internal coordinates
+    protected int x = 0;
+    protected int y = 0;
+    protected int z = 0;
+    protected int c;
+    protected Face[] faces = new Face[6];
 
-    Cubie(PMatrix3D m, int x, int y, int z,mainRubiksSimulator sketch) {
+    protected Cubie(PMatrix3D m, int x, int y, int z,mainRubiksSimulator sketch) {
         if (mysketch == null)
             mysketch = sketch;
 
@@ -21,7 +25,6 @@ public class Cubie {
         this.x = x;
         this.y = y;
         this.z = z;
-        //c = color(255);
 
         faces[0] = new Face(new PVector(0, 0, -1),mysketch.color(0,0,0),mysketch);
         faces[1] = new Face(new PVector(0, 0, 1),mysketch.color(0,0,0),mysketch);
@@ -31,27 +34,25 @@ public class Cubie {
         faces[5] = new Face(new PVector(-1, 0, 0),mysketch.color(0,0,0),mysketch);
     }
 
-    public void turnFacesZ(int dir) {
+    protected void turnFacesZ(int dir) {
         for (Face f : faces) {
             f.turnZ(dir*PConstants.HALF_PI);
         }
     }
 
-    public void turnFacesY(int dir) {
+    protected void turnFacesY(int dir) {
         for (Face f : faces) {
             f.turnY(dir*PConstants.HALF_PI);
         }
     }
 
-    public void turnFacesX(int dir) {
+    protected void turnFacesX(int dir) {
         for (Face f : faces) {
             f.turnX(dir*PConstants.HALF_PI);
         }
     }
 
-
-
-    public void update(int x, int y, int z) {
+    protected void update(int x, int y, int z) {
         matrix.reset();
         matrix.translate(x, y, z);
         this.x = x;
@@ -59,8 +60,7 @@ public class Cubie {
         this.z = z;
     }
 
-    public void show() {
-        //fill(c);
+    protected void show() {
         mysketch.noFill();
         mysketch.stroke(0);
         mysketch.strokeWeight(0.1f);

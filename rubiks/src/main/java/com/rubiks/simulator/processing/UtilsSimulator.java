@@ -6,13 +6,15 @@ import processing.core.PMatrix3D;
 import java.util.HashMap;
 
 public class UtilsSimulator {
-    mainRubiksSimulator mysketch;
+    private static mainRubiksSimulator mysketch = null;
 
     HashMap<Character, Integer> color_dict;
 
-    public UtilsSimulator(mainRubiksSimulator sketch){
-        mysketch = sketch;
-        color_dict= new HashMap<>();{{
+    protected UtilsSimulator(mainRubiksSimulator sketch){
+    	if (mysketch == null)
+            mysketch = sketch;
+
+    	color_dict= new HashMap<>();{{
             color_dict.put('B', mysketch.color(255,255,0));color_dict.put('D',mysketch.color(0,255,0));
             color_dict.put('F',mysketch.color(255,255,255));color_dict.put('R',mysketch.color(255,0,0));
             color_dict.put('L',mysketch.color(255,150,0));color_dict.put('U',mysketch.color(0,0,255));
@@ -20,8 +22,7 @@ public class UtilsSimulator {
         }}
     }
 
-
-    public void UpdateSingmasterState(Cubie[] cube,String state)
+    protected void UpdateSingmasterState(Cubie[] cube,String state)
     {
         int index = 0;
         for (int x = -1; x <= 1; x++) {
@@ -34,7 +35,6 @@ public class UtilsSimulator {
                 }
             }
         }
-
 
         String[] initial_state = new String[]{state.substring(0, 9), state.substring(9, 18),
                 state.substring(18, 27), state.substring(27, 36),
@@ -116,7 +116,7 @@ public class UtilsSimulator {
 
     }
     
-    public String getSingmasterErrorsDoc()
+    protected String getSingmasterErrorsDoc()
     {
     	String ret =  "Error codes:\n\t1: There is not exactly one facelet of each colour or there exist unknown colors\n"
     			+ "\t2: Not all 12 edges exist exactly once\n"

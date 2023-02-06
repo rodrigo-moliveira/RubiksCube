@@ -1,20 +1,31 @@
 package com.rubiks.simulator.processing;
 
+import java.util.HashMap;
+
 import com.rubiks.simulator.processing.Move;
 
 import processing.core.PApplet;
 
 public class Move {
-    static mainRubiksSimulator mysketch = null;
-    float angle = 0;
-    int x = 0;
-    int y = 0;
-    int z = 0;
-    int dir;
-    boolean animating = false;
-    boolean finished = false;
+	
+	@SuppressWarnings("serial")
+    protected static final HashMap<String,Integer > moveDictionary = new HashMap<String,Integer>() {{
+        put("D3",0);put("D1",1);put("U1",2);put("U3",3);put("R1",4);put("R3",5);
+        put("L3",6);put("L1",7);put("F1",8);put("F3",9);put("B3",10);put("B1",11);
 
-    Move(int x, int y, int z, int dir,mainRubiksSimulator sketch) {
+    }};
+	
+    private static mainRubiksSimulator mysketch = null;
+    
+    protected float angle = 0;
+    protected int x = 0;
+    protected int y = 0;
+    protected int z = 0;
+    protected int dir;
+    protected boolean animating = false;
+    protected boolean finished = false;
+
+    protected Move(int x, int y, int z, int dir, mainRubiksSimulator sketch) {
         if (mysketch == null)
             mysketch = sketch;
         this.x = x;
@@ -23,25 +34,25 @@ public class Move {
         this.dir = dir;
     }
 
-    public Move copy() {
+    protected Move copy() {
         return new Move(x, y, z, dir,mysketch);
     }
 
-    public void reverse() {
+    protected void reverse() {
         dir *= -1;
     }
 
-    public void start() {
+    protected void start() {
         animating = true;
         finished = false;
         this.angle = 0;
     }
 
-    public boolean finished() {
+    protected boolean finished() {
         return finished;
     }
 
-    public void update() {
+    protected void update() {
         if (animating) {
             angle += dir * mysketch.speed;
             if (PApplet.abs(angle) > PApplet.HALF_PI) {

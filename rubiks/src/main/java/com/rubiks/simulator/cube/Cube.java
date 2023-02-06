@@ -11,13 +11,14 @@ import java.util.Map;
 
 import static com.rubiks.utils.UtilityFunctions.getRandomIntegerBetweenRange;
 
-
+// This class represents the internal state of the cube. See Section 
+// 'Cube State Description' for more information regarding the internal definitions
+// This class is adapted from `cubepos` class of https://www.cube20.org/src/
 public class Cube implements Cloneable{
 
-
     /* 1. - State Variables - Arrays to store the state of the cube (8 corners + 12 edges)*/
-    private byte[] c;
-    private byte[] e;
+    private byte[] c; // array of corners
+    private byte[] e; // array of edges
 
     /* 2. Public Getters*/
     public byte[] getEdgesArray(){return Arrays.copyOf(e,e.length);}
@@ -35,7 +36,6 @@ public class Cube implements Cloneable{
     static public final byte[] corner_ori_neg_strip = new byte[CUBIES];
     static public final byte[] mod24 = new byte[2*CUBIES];//mod24 operator helper
 
-
     /*4. - Utility functions*/
     static public byte edge_perm(byte cubieval) { return (byte) (cubieval >> 1); }
     static public byte edge_ori(byte cubieval) { return (byte)(cubieval & 1) ; }
@@ -49,6 +49,10 @@ public class Cube implements Cloneable{
     static public byte corner_ori_sub(byte cv1, byte cv2){return (byte)(cv1 + corner_ori_neg_strip[cv2] );}
     static public int isEdgeInUDSlice(int perm){ if (perm >= 4 && perm <= 7)return 1;else return 0;}
     void swap_pieces(byte[] arr, int i, int j){byte aux = arr[i];arr[i] = arr[j];arr[j] = aux;}
+    
+    // helpers to rotate arrays
+    private static final RotateArrays<Byte> rotate = new RotateArrays<Byte>();
+    private static final RotateArrays<Character> rotateChars = new RotateArrays<Character>();
 
     //parity checks
     public boolean cornerParity() {
@@ -68,18 +72,21 @@ public class Cube implements Cloneable{
 
 
     /*5. - Dictionaries*/
+    @SuppressWarnings("serial")
     public static final HashMapInvert<Byte,String > corner_table = new HashMapInvert<Byte,String>() {{
         put((byte) 0,"UBL");put((byte) 1,"URB");put((byte) 2,"ULF");put((byte) 3,"UFR");
         put((byte) 4,"DLB");put((byte) 5,"DBR");put((byte) 6,"DFL");put((byte) 7,"DRF");
     }};
 
-    private static final HashMapInvert<Byte,String > edge_table = new HashMapInvert<Byte,String>() {{
+    @SuppressWarnings("serial")
+	private static final HashMapInvert<Byte,String > edge_table = new HashMapInvert<Byte,String>() {{
         put((byte)0,"UB"); put((byte)4,"LB"); put((byte)8,"DB");
         put((byte)1,"UL"); put((byte)5,"RB"); put((byte)9,"DL");
         put((byte)2,"UR"); put((byte)6,"LF"); put((byte)10,"DR");
         put((byte)3,"UF"); put((byte)7,"RF"); put((byte)11,"DF");
     }};
 
+    @SuppressWarnings("serial")
     public static final HashMapInvert<String,Byte> move_dict = new HashMapInvert<String, Byte>() {{
         put("U1", (byte) 0); put("U2", (byte) 1); put("U3", (byte) 2);
         put("F1", (byte) 3); put("F2", (byte) 4); put("F3", (byte) 5);
@@ -89,6 +96,7 @@ public class Cube implements Cloneable{
         put("L1", (byte) 15); put("L2", (byte) 16); put("L3", (byte) 17);
     }};
 
+    @SuppressWarnings("serial")
     private static final Map<Character,Byte> faces = new HashMap<Character, Byte>() {{
         put('U', (byte) 0); put('F', (byte) 1); put('R', (byte) 2);
         put('D', (byte) 3); put('B', (byte) 4); put('L', (byte) 5);
@@ -153,9 +161,6 @@ public class Cube implements Cloneable{
                 }
             }
     }
-
-    private static final RotateArrays<Byte> rotate = new RotateArrays<Byte>();
-    private static final RotateArrays<Character> rotateChars = new RotateArrays<Character>();
 
     //Constructors
     public Cube(){
@@ -419,7 +424,7 @@ public class Cube implements Cloneable{
     }
 
 
-    int verifySingmasterNotation(String singmaster){
+    private int verifySingmasterNotation(String singmaster){
         /*Returns -1 if there exist unknown characters in string, different from (URFDBL),
         * or if there aren't exactly 9 characters of each face*/
         int[] count = new int[6];
@@ -438,14 +443,14 @@ public class Cube implements Cloneable{
         return 0;
     }
 
-    int verifyCubeState(){
+    private int verifyCubeState(){
         /* return codes
         0: Solvable cube
-        -2: Not all 12 edges exist exactly once
-        -3: Flip error: One edge has to be flipped
-        -4: Not all 8 corners exist exactly once
-        -5: Twist error: One corner has to be twisted
-        -6: Parity error: Two corners ore two edges have to be exchanged
+        2: Not all 12 edges exist exactly once
+        3: Flip error: One edge has to be flipped
+        4: Not all 8 corners exist exactly once
+        5: Twist error: One corner has to be twisted
+        6: Parity error: Two corners ore two edges have to be exchanged
         */
 
         int sum_perm = 0,sum_ori=0;

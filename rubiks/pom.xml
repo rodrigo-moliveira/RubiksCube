@@ -95,6 +95,8 @@
   				</configuration>-->
 			</plugin>
 			
+			
+			
 			<!-- Plugin to run javafx app -->
 			<plugin>
                 <groupId>org.openjfx</groupId>
@@ -103,7 +105,8 @@
                 <configuration>
                     <mainClass>com.rubiks.MainApp</mainClass>
                     <!--<executable>/snap/eclipse/66//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.linux.x86_64_17.0.5.v20221102-0933/jre/bin/java</executable>-->
-                    <executable>/home/rodrigo/Documents/tools/org.eclipse.justj.openjdk.hotspot.jre.full-17.0.5-linux-x86_64/bin/java</executable>
+                    <!--<executable>C:\Users\rooo\Documents\tools\jre.full-17.0.5\bin\java.exe</executable>-->
+					<!--<executable>C:\Users\rooo\Downloads\jdk-19_windows-x64_bin\jdk-19.0.2\bin\java.exe</executable>-->
                 </configuration>
             </plugin>
 

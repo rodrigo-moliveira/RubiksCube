@@ -1,15 +1,10 @@
 package com.rubiks.simulator.processing;
 
-
 import peasy.PeasyCam;
 import processing.core.PApplet;
 import processing.core.PMatrix2D;
 
-
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.swing.JOptionPane;
 
 import com.rubiks.MainApp;
 import com.rubiks.simulator.Thisletwaite.ThisletwaiteSolver;
@@ -20,69 +15,53 @@ import com.rubiks.utils.Exceptions.RubiksSolutionException;
 import com.rubiks.utils.Exceptions.SingmasterError;
 
 
+// this processing package is based on https://thecodingtrain.com/challenges/142-rubiks-cube 
 public class mainRubiksSimulator extends PApplet {
-    //Solver and Internal Representation Variables
-    protected Cube internalState = new Cube();
-    protected ThisletwaiteSolver solver;
-    {
+
+	// Variables to compute the solution
+	private Cube internalState = new Cube();
+	private ThisletwaiteSolver solver;
+    
+    // Variables to model the cube in Processing
+	private UtilsSimulator myUtils = new UtilsSimulator(this);
+	private Cubie[] cube = new Cubie[3*3*3]; // processing representation of the cube
+	private ArrayList<Move> sequence = new ArrayList<>(); // move sequence
+	private Move currentMove; // current move to be performed
+
+    // other Processing related variables
+	private PeasyCam cam;
+	protected float speed = 0.1f;//0.05f;
+	private boolean animating = false;
+    
+    // Reference to the main application.
+	private MainApp mainApp;
+
+    // setting up all moves
+	private Move[] allMoves = new Move[] {
+            new Move(0, 1, 0, 1,this),    // D'
+            new Move(0, 1, 0, -1,this),   // D
+            new Move(0, -1, 0, 1,this),   // U
+            new Move(0, -1, 0, -1,this),  // U'
+            new Move(1, 0, 0, 1,this),    // R
+            new Move(1, 0, 0, -1,this),   // R'
+            new Move(-1, 0, 0, 1,this),   // L'
+            new Move(-1, 0, 0, -1,this),  // L
+            new Move(0, 0, 1, 1,this),    // F
+            new Move(0, 0, 1, -1,this),   // F'
+            new Move(0, 0, -1, 1,this),   // B'
+            new Move(0, 0, -1, -1,this)   // B
+    };
+
+    // set up PApplet function
+    public void setup() {
+    	
+    	// initialize solver    	
         try {
             solver = new ThisletwaiteSolver();
         } catch (DatabaseGenerationError databaseGenerationError) {
             databaseGenerationError.printStackTrace();
         }
-    }
-
-
-    //Class utils
-    UtilsSimulator myUtils = new UtilsSimulator(this);
-    int dim = 3;
-    Cubie[] cube = new Cubie[dim*dim*dim];
-    ArrayList<Move> sequence = new ArrayList<>();
-    Move currentMove;
-
-    //Processing related variables
-    PeasyCam cam;
-    float speed = 0.1f;//0.05f;
-    //Form form;
-    int rectSizeX = 120;     // Diameter of rect
-    int rectSizeY = 80;     // Diameter of rect
-    int rectColor, baseColor;
-    int rectHighlight;
-    int currentColor;
-    SingmasterSketch singmastersketch;
-    boolean animating = false;
-    
-    // Reference to the main application.
-    private MainApp mainApp;
-
-    //setting up all moves
-    Move[] allMoves = new Move[] {
-            new Move(0, 1, 0, 1,this),    //D'
-            new Move(0, 1, 0, -1,this),   //D
-            new Move(0, -1, 0, 1,this),   //U
-            new Move(0, -1, 0, -1,this),   //U'
-            new Move(1, 0, 0, 1,this),     //R
-            new Move(1, 0, 0, -1,this),   //R'
-            new Move(-1, 0, 0, 1,this),   //L'
-            new Move(-1, 0, 0, -1,this),   //L
-            new Move(0, 0, 1, 1,this),     //F
-            new Move(0, 0, 1, -1,this),     //F'
-            new Move(0, 0, -1, 1,this),   //B'
-            new Move(0, 0, -1, -1,this)   //B
-    };
-    private static final HashMap<String,Integer > moveDictionary = new HashMap<String,Integer>() {{
-        put("D3",0);put("D1",1);put("U1",2);put("U3",3);put("R1",4);put("R3",5);
-        put("L3",6);put("L1",7);put("F1",8);put("F3",9);put("B3",10);put("B1",11);
-
-    }};
-
-
-    public void setup() {
-
-        rectColor = color(69,216,255);
-        rectHighlight = color(31,61,68);
-        baseColor = color(102);
-        currentColor = baseColor;
+        
         ellipseMode(CENTER);
         currentMove = allMoves[0];
 
@@ -91,13 +70,12 @@ public class mainRubiksSimulator extends PApplet {
         
         surface.setTitle("Cube Engine");
         surface.setLocation(100, 100);
-        
     }
 
 
-
-    public void draw() {
-
+    // function to draw the PApplet
+    public void draw() 
+    {
         background(40);
         cam.beginHUD();
         fill(255);
@@ -107,7 +85,8 @@ public class mainRubiksSimulator extends PApplet {
         rotateX(-0.5f);
         rotateY(0.4f);
         rotateZ(0.1f);
-
+        
+        // updating the current move
         currentMove.update();
         if (currentMove.finished()) {
             if (sequence.size() > 0) {
@@ -121,59 +100,47 @@ public class mainRubiksSimulator extends PApplet {
             }
         }
 
-
-            scale(50);
-            for (int i = 0; i < cube.length; i++) {
-                push();
-                if (abs(cube[i].z) > 0 && cube[i].z == currentMove.z) {
-                    rotateZ(currentMove.angle);
-                } else if (abs(cube[i].x) > 0 && cube[i].x == currentMove.x) {
-                    rotateX(currentMove.angle);
-                } else if (abs(cube[i].y) > 0 && cube[i].y == currentMove.y) {
-                    rotateY(-currentMove.angle);
-                }
-
-                cube[i].show();
-                pop();
+        scale(50);
+        
+        for (int i = 0; i < cube.length; i++) {
+            push();
+            if (abs(cube[i].z) > 0 && cube[i].z == currentMove.z) {
+                rotateZ(currentMove.angle);
+            } else if (abs(cube[i].x) > 0 && cube[i].x == currentMove.x) {
+                rotateX(currentMove.angle);
+            } else if (abs(cube[i].y) > 0 && cube[i].y == currentMove.y) {
+                rotateY(-currentMove.angle);
             }
 
-    }
+            cube[i].show();
+            pop();
+        }
 
-    public boolean overRect(int x, int y, int width, int height)  {
-        return mouseX >= x && mouseX <= x + width &&
-                mouseY >= y && mouseY <= y + height;
     }
-
+    
+    // randomly set the cube
     public void randomScramble(){
         internalState = new Cube().randomize();
         String str = internalState.toSingMasterNotation();
         myUtils.UpdateSingmasterState(cube,str);
     }
     
+    // reset the cube to the solved state
     public void resetSolved(){
         internalState = new Cube();
         String str = internalState.toSingMasterNotation();
         myUtils.UpdateSingmasterState(cube,str);
     }
 
+    // update the cube to the provided state in Singmaster form
     public void singmasterScramble(String singmaster) throws SingmasterError{
 
-            internalState = new Cube().fromSingMasterNotation(singmaster); // throws SingmasterError if scramble is illegal
-            
-            myUtils.UpdateSingmasterState(cube,internalState.toSingMasterNotation());
+    	// throws SingmasterError if scramble is illegal
+        internalState = new Cube().fromSingMasterNotation(singmaster); 
+        myUtils.UpdateSingmasterState(cube,internalState.toSingMasterNotation());
     }
 
-    public void launchSingmasterSketch(){
-        if (singmastersketch == null) {
-            singmastersketch = new SingmasterSketch();
-            String[] processingArgs = {"SingmasterSketch"};
-            PApplet.runSketch(processingArgs, singmastersketch);
-        }
-        else {
-            singmastersketch.setVisible();
-        }
-    }
-
+    // function to solve the cube and start the animation
     public String Solve() throws RubiksSolutionException, InvalidMoveString
     {
     	String solution = null;
@@ -190,7 +157,7 @@ public class mainRubiksSimulator extends PApplet {
     	return solution;
     }
     
-
+    // apply the provided move sequence
     public void ApplyMove(String moves) throws InvalidMoveString
     {
     	animationStarting();
@@ -205,18 +172,17 @@ public class mainRubiksSimulator extends PApplet {
 
             if (move.contains("2")){
                 move = move.charAt(0) + "1";
-                sequence.add(allMoves[moveDictionary.get(move)]);
+                sequence.add(allMoves[Move.moveDictionary.get(move)]);
             }
-            sequence.add(allMoves[moveDictionary.get(move)]);
+            sequence.add(allMoves[Move.moveDictionary.get(move)]);
             i+=2;
         }
         currentMove = sequence.remove(0);
         currentMove.start();
     }
 
-
-
-    public void turnZ(int index, int dir) {
+    // function to turn the Z layer
+    protected void turnZ(int index, int dir) {
         for (int i = 0; i < cube.length; i++) {
             Cubie qb = cube[i];
             if (qb.z == index) {
@@ -228,8 +194,9 @@ public class mainRubiksSimulator extends PApplet {
             }
         }
     }
-
-    public void turnY(int index, int dir) {
+    
+    // function to turn the Y layer
+    protected void turnY(int index, int dir) {
         for (int i = 0; i < cube.length; i++) {
             Cubie qb = cube[i];
             if (qb.y == index) {
@@ -241,8 +208,9 @@ public class mainRubiksSimulator extends PApplet {
             }
         }
     }
-
-    public void turnX(int index, int dir) {
+    
+    // function to turn the X layer
+    protected void turnX(int index, int dir) {
         for (int i = 0; i < cube.length; i++) {
             Cubie qb = cube[i];
             if (qb.x == index) {
@@ -260,15 +228,15 @@ public class mainRubiksSimulator extends PApplet {
     	return myUtils.getSingmasterErrorsDoc();
     }
     
-    public void settings() {
+    public void settings() 
+    {
         // System.setProperty("jogl.disable.openglcore", "false");
         size(600, 600, P3D); 
-        }
+    }
 
     public void run(){
         String[] processingArgs = {""};
         PApplet.runSketch(processingArgs, this);
-
     }
     
     public void reallyExit()
@@ -278,15 +246,10 @@ public class mainRubiksSimulator extends PApplet {
     
     public void exit() 
     {
-    	System.out.println("Calling exit");
     	this.mainApp.closeProgram();
 	}
     
-    /**
-     * Is called by the main application to give a reference back to itself.
-     * 
-     * @param mainApp
-     */
+    
     public void setMainApp(MainApp mainApp) 
     {
         this.mainApp = mainApp;
