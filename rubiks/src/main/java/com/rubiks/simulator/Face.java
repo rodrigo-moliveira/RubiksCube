@@ -1,4 +1,4 @@
-package com.rubiks.simulator.processing;
+package com.rubiks.simulator;
 
 import processing.core.PApplet;
 import processing.core.PConstants;

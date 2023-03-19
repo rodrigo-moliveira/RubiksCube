@@ -1,4 +1,4 @@
-package com.rubiks.simulator.cube;
+package com.rubiks.cube;
 
 import com.rubiks.utils.Exceptions.InvalidMoveString;
 import com.rubiks.utils.Exceptions.SingmasterError;

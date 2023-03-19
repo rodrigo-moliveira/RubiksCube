@@ -1,7 +1,7 @@
-package com.rubiks.simulator.Thisletwaite;
+package com.rubiks.cube.Thisletwaite;
 
-import com.rubiks.simulator.cube.Cube;
-import com.rubiks.simulator.Search.ThisletwaiteNode;
+import com.rubiks.cube.Cube;
+import com.rubiks.cube.Node;
 import com.rubiks.utils.Exceptions.DatabaseFormatError;
 import com.rubiks.utils.Exceptions.RubiksSolutionException;
 
@@ -175,8 +175,8 @@ public class ThisletwaiteDB {
         }
 
         //create open list of search and add node with solved state
-        Queue<ThisletwaiteNode<Cube,Long>> open_list = new LinkedList<>();
-        ThisletwaiteNode<Cube,Long> searchNode = new ThisletwaiteNode<>(cube.clone(), id_goal);
+        Queue<Node<Cube,Long>> open_list = new LinkedList<>();
+        Node<Cube,Long> searchNode = new Node<>(cube.clone(), id_goal);
         open_list.add(searchNode);
 
         //create closed list (contains all states that have been successfully expanded in the BFS)
@@ -217,7 +217,7 @@ public class ThisletwaiteDB {
                             if (!closed_list.contains(id)) {
                                 closed_list.add(id);
                                 String action = Cube.move_dict.getKey((byte)(3 * move + 2 - amount));
-                                ThisletwaiteNode<Cube,Long> new_node = new ThisletwaiteNode<>(searchNode.getState().clone(), id,
+                                Node<Cube,Long> new_node = new Node<>(searchNode.getState().clone(), id,
                                         action + searchNode.getPath());
                                 open_list.add(new_node);
 

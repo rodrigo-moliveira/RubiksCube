@@ -1,7 +1,7 @@
 package com.rubiks;
 
-import com.rubiks.simulator.cube.Cube;
-import com.rubiks.simulator.Thisletwaite.ThisletwaiteSolver;
+import com.rubiks.cube.Cube;
+import com.rubiks.cube.Thisletwaite.ThisletwaiteSolver;
 import com.rubiks.utils.Exceptions.DatabaseGenerationError;
 import com.rubiks.utils.Exceptions.RubiksSolutionException;
 import com.rubiks.utils.Exceptions.SingmasterError;

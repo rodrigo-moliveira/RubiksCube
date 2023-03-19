@@ -1,4 +1,4 @@
-package com.rubiks.simulator.processing;
+package com.rubiks.simulator;
 
 import peasy.PeasyCam;
 import processing.core.PApplet;
@@ -7,8 +7,8 @@ import processing.core.PMatrix2D;
 import java.util.ArrayList;
 
 import com.rubiks.MainApp;
-import com.rubiks.simulator.Thisletwaite.ThisletwaiteSolver;
-import com.rubiks.simulator.cube.Cube;
+import com.rubiks.cube.Cube;
+import com.rubiks.cube.Thisletwaite.ThisletwaiteSolver;
 import com.rubiks.utils.Exceptions.DatabaseGenerationError;
 import com.rubiks.utils.Exceptions.InvalidMoveString;
 import com.rubiks.utils.Exceptions.RubiksSolutionException;

@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import com.rubiks.simulator.processing.mainRubiksSimulator;
+import com.rubiks.simulator.mainRubiksSimulator;
 import com.rubiks.view.MainLayoutController;
 import com.rubiks.view.MenuController;
 

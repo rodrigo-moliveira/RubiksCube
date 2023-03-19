@@ -1,6 +1,6 @@
-package com.rubiks.simulator.Thisletwaite;
+package com.rubiks.cube.Thisletwaite;
 
-import com.rubiks.simulator.cube.Cube;
+import com.rubiks.cube.Cube;
 import com.rubiks.utils.Exceptions.DatabaseGenerationError;
 import com.rubiks.utils.Exceptions.RubiksSolutionException;
 

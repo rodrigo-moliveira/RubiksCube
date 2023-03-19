@@ -1,8 +1,8 @@
-package com.rubiks.simulator.processing;
+package com.rubiks.simulator;
 
 import java.util.HashMap;
 
-import com.rubiks.simulator.processing.Move;
+import com.rubiks.simulator.Move;
 
 import processing.core.PApplet;
 

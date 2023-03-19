@@ -1,4 +1,4 @@
-package com.rubiks.simulator.processing;
+package com.rubiks.simulator;
 
 import processing.core.PConstants;
 import processing.core.PMatrix3D;
