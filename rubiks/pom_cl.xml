@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com</groupId>
-  <artifactId>rubiksApp</artifactId>
+  <artifactId>rubiks_cl</artifactId>
   <version>1.0</version>
   <packaging>jar</packaging>
 
@@ -15,8 +15,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>13</maven.compiler.release>
-     <maven.compiler.source>11</maven.compiler.source>
- <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+     <maven.compiler.target>1.8</maven.compiler.target>
     <javafx.version>19</javafx.version>
     <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
     <maven.shade.plugin.version>3.2.1</maven.shade.plugin.version>
@@ -86,55 +86,41 @@
   </dependencies>
   
   
-  <build>
- <resources>
-     <resource>
-         <directory>src/main/resources</directory>
-     </resource>
- </resources>
- <plugins>
-     <plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-jar-plugin</artifactId>
-         <version>3.2.0</version>
-         <configuration>
-             <archive>
-                 <manifest>
-                     <addClasspath>true</addClasspath>
-                     <mainClass>com.rubiks.Main</mainClass>
-                 </manifest>
-                 <manifestEntries>
-                     <Class-Path>.</Class-Path>
-                 </manifestEntries>
-             </archive>
-         </configuration>
-     </plugin>
-     <plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-assembly-plugin</artifactId>
-         <version>3.3.0</version>
-         <configuration>
-             <finalName>final-jar-file-name</finalName>
-             <archive>
-                 <manifest>
-                     <mainClass>com.rubiks.Main</mainClass>
-                 </manifest>
-             </archive>
-             <descriptorRefs>
-                 <descriptorRef>jar-with-dependencies</descriptorRef>
-             </descriptorRefs>
-             <appendAssemblyId>false</appendAssemblyId>
-         </configuration>
-         <executions>
-             <execution>
-                 <id>make-assembly</id>
-                 <phase>package</phase>
-                 <goals>
-                     <goal>single</goal>
-                 </goals>
-             </execution>
-         </executions>
-     </plugin>
- </plugins>
- </build>
+		 <build>
+	<pluginManagement>
+		<plugins>
+		<plugin>
+		<groupId>org.codehaus.mojo</groupId>
+		<artifactId>exec-maven-plugin</artifactId>
+		<version>1.6.0</version>
+		<configuration>
+			<mainClass>com.rubiks.mainCommandLine</mainClass>
+		</configuration>
+</plugin>
+
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <version>3.1.2</version>
+    <configuration>
+		
+        <archive>
+            <manifest>
+                <packageName>com.rubiks.java</packageName>
+                <addClasspath>true</addClasspath>
+            <classpathPrefix>lib/</classpathPrefix>
+            <mainClass>com.rubiks.mainCommandLine</mainClass>
+            </manifest>
+            <manifestEntries>
+                <Created-By>baeldung</Created-By>
+            </manifestEntries>
+        </archive>
+    </configuration>
+</plugin>
+
+		</plugins>
+	</pluginManagement>
+  </build>
+  
+  
 </project>

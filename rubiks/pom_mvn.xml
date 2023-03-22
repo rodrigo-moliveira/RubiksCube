@@ -15,8 +15,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>13</maven.compiler.release>
-     <maven.compiler.source>11</maven.compiler.source>
- <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+     <maven.compiler.target>1.8</maven.compiler.target>
     <javafx.version>19</javafx.version>
     <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
     <maven.shade.plugin.version>3.2.1</maven.shade.plugin.version>
@@ -87,54 +87,31 @@
   
   
   <build>
- <resources>
-     <resource>
-         <directory>src/main/resources</directory>
-     </resource>
- </resources>
- <plugins>
-     <plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-jar-plugin</artifactId>
-         <version>3.2.0</version>
-         <configuration>
-             <archive>
-                 <manifest>
-                     <addClasspath>true</addClasspath>
-                     <mainClass>com.rubiks.Main</mainClass>
-                 </manifest>
-                 <manifestEntries>
-                     <Class-Path>.</Class-Path>
-                 </manifestEntries>
-             </archive>
-         </configuration>
-     </plugin>
-     <plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-assembly-plugin</artifactId>
-         <version>3.3.0</version>
-         <configuration>
-             <finalName>final-jar-file-name</finalName>
-             <archive>
-                 <manifest>
-                     <mainClass>com.rubiks.Main</mainClass>
-                 </manifest>
-             </archive>
-             <descriptorRefs>
-                 <descriptorRef>jar-with-dependencies</descriptorRef>
-             </descriptorRefs>
-             <appendAssemblyId>false</appendAssemblyId>
-         </configuration>
-         <executions>
-             <execution>
-                 <id>make-assembly</id>
-                 <phase>package</phase>
-                 <goals>
-                     <goal>single</goal>
-                 </goals>
-             </execution>
-         </executions>
-     </plugin>
- </plugins>
- </build>
+	<pluginManagement>
+		<plugins>
+		<plugin>
+				<groupId>org.openjfx</groupId>
+				<artifactId>javafx-maven-plugin</artifactId>
+				<version>0.0.3</version>
+				<configuration>
+					<mainClass>com.rubiks.MainApp</mainClass>
+				</configuration>
+			</plugin>
+
+        <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-jar-plugin</artifactId>
+	<version>2.4</version>
+	<configuration>
+	  <archive>
+	    <manifest>
+		<mainClass>com.rubiks.Main</mainClass>
+	    </manifest>
+	  </archive>
+	</configuration>
+    </plugin>
+
+		</plugins>
+	</pluginManagement>
+  </build>
 </project>
