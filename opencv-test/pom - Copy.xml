@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>opencv-test</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+	    <java.home>/c/Users/rooo/Documents/tools/openjdk-19.0.2_windows-x64_bin/jdk-19.0.2</java.home>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <opencv.version>4.7.0</opencv.version>  <!-- Adjust based on installed OpenCV version -->
+    </properties>
+
+    <dependencies>
+    <!-- OpenCV Java Bindings from ByteDeco -->
+    <dependency>
+        <groupId>org.bytedeco</groupId>
+        <artifactId>opencv</artifactId>
+        <version>4.7.0-1.5.9</version> <!-- Adjust version based on OpenCV installed -->
+    </dependency>
+    
+     <!-- Platform-Specific Native Libraries -->
+    <dependency>
+        <groupId>org.bytedeco</groupId>
+        <artifactId>opencv-platform</artifactId>
+        <version>4.7.0-1.5.9</version>
+    </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Java Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+            <!-- Maven Exec Plugin to Run OpenCV -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>com.example.OpenCVTest</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

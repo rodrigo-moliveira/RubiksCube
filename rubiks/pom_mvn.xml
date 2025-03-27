@@ -13,14 +13,15 @@
   
 
   <properties>
+    <java.home>/c/Users/rooo/Documents/tools/openjdk-19.0.2_windows-x64_bin/jdk-19.0.2</java.home>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>13</maven.compiler.release>
     <maven.compiler.source>1.8</maven.compiler.source>
-     <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.target>1.8</maven.compiler.target>
     <javafx.version>19</javafx.version>
     <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
     <maven.shade.plugin.version>3.2.1</maven.shade.plugin.version>
-		<launch4j.maven.plugin.version>1.7.25</launch4j.maven.plugin.version>
+	<launch4j.maven.plugin.version>1.7.25</launch4j.maven.plugin.version>
     
   </properties>
   
@@ -92,7 +93,7 @@
 		<plugin>
 				<groupId>org.openjfx</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
-				<version>0.0.3</version>
+				<version>0.0.8</version>
 				<configuration>
 					<mainClass>com.rubiks.MainApp</mainClass>
 				</configuration>
@@ -110,6 +111,15 @@
 	  </archive>
 	</configuration>
     </plugin>
+	
+	<plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.0.0</version>
+            <configuration>
+                <executable>${java.home}/bin/java</executable>
+            </configuration>
+        </plugin>
 
 		</plugins>
 	</pluginManagement>
