@@ -13,6 +13,7 @@
   
 
   <properties>
+  <java.home>/c/Users/rooo/Documents/tools/openjdk-19.0.2_windows-x64_bin/jdk-19.0.2</java.home>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>13</maven.compiler.release>
     <maven.compiler.source>1.8</maven.compiler.source>

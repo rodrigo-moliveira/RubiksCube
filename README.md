@@ -1,3 +1,9 @@
+# Rubiks Cube Solver
+
+![Program Image 1](docs/image1.png)
+
+![Program Image 2](docs/image2.png)
+
 to run:
 
 in pom directory, to run using maven
@@ -6,7 +12,6 @@ in pom directory, to run using maven
     mvn javafx:run -f pom_mvn.xml
 
 
-###### Ill succeed hopefully ahah
 to run with jar:
 see full command of eclipse run configurations
 	compile pom.xml with 
