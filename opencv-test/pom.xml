@@ -52,7 +52,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.example.OpenCVTest</mainClass>
+                    <mainClass>com.example.Test3</mainClass>
                 </configuration>
             </plugin>
         </plugins>
